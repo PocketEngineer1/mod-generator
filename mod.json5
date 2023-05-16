@@ -1,0 +1,75 @@
+{
+    mod: {
+        name: 'Not Marks Stuff',
+        id: 'not_marks_stuff',
+        desc: 'A bunch of stuff I made',
+        author: 'Not Mark',
+    },
+
+    elements: {
+        items: [
+            // Note: All the element ids end with _1 because I plan for having multiple varients
+            {
+                id: 'tomato_1',
+                name: 'Tomato',
+            },
+            {
+                id: 'carrot_1',
+                name: 'Carrot',
+            },
+            {
+                id: 'coffee_1',
+                name: 'Coffee',
+            },
+            {
+                id: 'banana_1',
+                name: 'Banana',
+            },
+            {
+                id: 'banana_1',
+                name: 'Banana',
+            },
+            {
+                id: 'mango_1',
+                name: 'Mango',
+            },
+
+            // Poke Balls (Main Series)
+            {
+                id: 'poke_ball_1',
+                name: 'Poke Ball',
+            },
+            {
+                id: 'great_ball_1',
+                name: 'Great Ball',
+            },
+            {
+                id: 'ultra_ball_1',
+                name: 'Ultra Ball',
+            },
+            {
+                id: 'master_ball_1',
+                name: 'Master Ball',
+            },
+            {
+                id: 'premier_ball_1',
+                name: 'Premier Ball',
+            },
+            {
+                id: 'luxury_ball_1',
+                name: 'Luxury Ball',
+            },
+            {
+                id: 'cherish_ball_1',
+                name: 'Cherish Ball',
+            },
+        ],
+
+        blocks: [
+            {
+                id: 'cobble_1',
+                name: 'Cobble',
+            },
+        ],
+    },
+}

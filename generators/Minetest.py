@@ -1,6 +1,6 @@
 import os, shutil
 
-def Generate(mod):
+def Generate(mod, args):
     if os.path.exists('output/Minetest') != True:
         os.mkdir('output/Minetest')
 

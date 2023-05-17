@@ -1,13 +1,15 @@
 import os, shutil
 
 def Generate(mod, args):
+    #region Directories
     if os.path.exists('output/Minetest') != True:
         os.mkdir('output/Minetest')
 
     if os.path.exists('output/Minetest/crafting') != True:
         os.mkdir('output/Minetest/crafting')
+    #endregion
 
-    # mod.conf
+    #region mod.conf
     with open('templates/Minetest/base/mod.conf', 'r') as f:
         file = f.read()
         f.close()
@@ -38,8 +40,9 @@ def Generate(mod, args):
         f.close()
 
     del file
+    #endregion
 
-    # craftitems.lua
+    #region craftitems.lua
     with open('templates/Minetest/craftitems.lua/head.lua', 'r') as f:
         file = f.read()
         f.close()
@@ -79,8 +82,9 @@ def Generate(mod, args):
         f.close()
 
     del file, template
+    #endregion
 
-    # nodes.lua
+    #region nodes.lua
     with open('templates/Minetest/nodes.lua/head.lua', 'r') as f:
         file = f.read()
         f.close()
@@ -118,8 +122,10 @@ def Generate(mod, args):
     with open('output/Minetest/nodes.lua', 'w') as f:
         f.write(file.rstrip())
         f.close()
+    #endregion
 
-    # crafting/shaped.lua
+    #region crafting
+    #region shaped.lua
     with open('output/Minetest/crafting/shaped.lua', 'w') as f:
         f.write('')
         f.close()
@@ -174,17 +180,18 @@ def Generate(mod, args):
                             write = True
                             break
                     for j in mod['elements']['blocks']:
-                        if outputItem == j['id']:
+                        if outputItem == j['id'] or '':
                             out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
                             write = True
                             break
                 elif outputItem.startswith('!item_definitions.'):
                     outputItem = outputItem.split('!item_definitions.', 1)[1]
                     for j in mod['item_definitions']['Minetest']:
-                        if j == outputItem:
+                        if j == outputItem or '':
                             out = out.replace('!recipe.ingredient_1', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_1', '')
                 #endregion
 
                 #region 2
@@ -210,6 +217,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_2', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_2', '')
                 #endregion
                 
                 #region 3
@@ -235,6 +243,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_3', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_3', '')
                 #endregion
                 
                 #region 4
@@ -260,6 +269,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_4', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_4', '')
                 #endregion
 
                 #region 5
@@ -285,6 +295,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_5', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_5', '')
                 #endregion
                 
                 #region 6
@@ -310,6 +321,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_6', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_6', '')
                 #endregion
                 
                 #region 7
@@ -335,6 +347,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_7', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_7', '')
                 #endregion
                 
                 #region 8
@@ -360,6 +373,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_8', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_8', '')
                 #endregion
                 
                 #region 9
@@ -385,6 +399,7 @@ def Generate(mod, args):
                             out = out.replace('!recipe.ingredient_9', mod['item_definitions']['Minetest'][j])
                             write = True
                             break
+                out = out.replace('!recipe.ingredient_9', '')
                 #endregion
                 #endregion
 
@@ -406,8 +421,19 @@ def Generate(mod, args):
         f.close()
 
     del template
+    #endregion
+    
+    #region shapeless
 
-    # assets
+    #endregion
+
+    #region smelting
+
+    #endregion
+    #endregion
+
+    #region assets
     if os.path.exists('output/Minetest/textures'):
         shutil.rmtree('output/Minetest/textures')
     shutil.copytree('assets/textures', 'output/Minetest/textures')
+    #endregion

@@ -33,6 +33,52 @@
     recipes: {
         shaped: [
             {
+                output: '!mod.tomato_1',
+                amount: 1,
+                recipe: [
+                    ['', '!item_definitions.green_dye', ''],
+                    ['!item_definitions.red_dye', '!item_definitions.clay', '!item_definitions.red_dye'],
+                    ['!item_definitions.red_dye', '!item_definitions.red_dye', '!item_definitions.red_dye']
+                ]
+            },
+            {
+                output: '!mod.carrot_1',
+                amount: 1,
+                recipe: [
+                    ['', '!item_definitions.green_dye', ''],
+                    ['!item_definitions.orange_dye', '!item_definitions.clay', '!item_definitions.orange_dye'],
+                    ['', '!item_definitions.orange_dye', '']
+                ]
+            },
+            {
+                output: '!mod.banana_1',
+                amount: 1,
+                recipe: [
+                    ['', '', '!item_definitions.brown_dye'],
+                    ['', '!item_definitions.clay', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.yellow_dye']
+                ]
+            },
+            {
+                output: '!mod.mango_1',
+                amount: 1,
+                recipe: [
+                    ['', '!item_definitions.orange_dye', '!item_definitions.orange_dye'],
+                    ['!item_definitions.lime_dye', '!item_definitions.clay', '!item_definitions.orange_dye'],
+                    ['!item_definitions.lime_dye', '!item_definitions.lime_dye', '']
+                ]
+            },
+            {
+                output: '!mod.peanut_butter_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.light_blue_dye', '!item_definitions.light_blue_dye', '!item_definitions.light_blue_dye'],
+                    ['!item_definitions.brown_dye', '!item_definitions.clay', '!item_definitions.brown_dye'],
+                    ['!item_definitions.brown_dye', '!item_definitions.brown_dye', '!item_definitions.brown_dye']
+                ]
+            },
+
+            {
                 output: '!mod.poke_ball_1',
                 amount: 1,
                 recipe: [
@@ -54,7 +100,7 @@
                 output: '!mod.ultra_ball_1',
                 amount: 1,
                 recipe: [
-                    ['!item_definitions.yellow_dye', '!item_definitions.black_dye', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.yellow_dye', '!item_definitions.grey_dye', '!item_definitions.yellow_dye'],
                     ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
                     ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
                 ]
@@ -78,12 +124,66 @@
                 ]
             },
             {
+                output: '!mod.luxury_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.yellow_dye', '!item_definitions.grey_dye', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.orange_dye', '!item_definitions.clay', '!item_definitions.orange_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.grey_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
                 output: '!mod.cherish_ball_1',
                 amount: 1,
                 recipe: [
                     ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye'],
-                    ['!item_definitions.red_dye', '!item_definitions.clay_dye', '!item_definitions.red_dye'],
+                    ['!item_definitions.red_dye', '!item_definitions.clay', '!item_definitions.red_dye'],
                     ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
+                ]
+            },
+            {
+                output: '!mod.slate_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.grey_dye', '!item_definitions.grey_dye', '!item_definitions.grey_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.roseate_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.pink_dye', '!item_definitions.pink_dye', '!item_definitions.pink_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.verdant_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.lime_dye', '!item_definitions.lime_dye', '!item_definitions.lime_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.citrine_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.azure_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.blue_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
                 ]
             },
         ],
@@ -123,6 +223,10 @@
             {
                 id: 'mango_1',
                 name: 'Mango',
+            },
+            {
+                id: 'peanut_butter_1',
+                name: 'Peanut Butter',
             },
 
             // Poke Balls (Main Series)

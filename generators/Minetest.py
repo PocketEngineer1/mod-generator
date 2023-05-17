@@ -1,5 +1,4 @@
 import os, shutil
-from functions import *
 
 def Generate(mod, args):
     if os.path.exists('output/Minetest') != True:

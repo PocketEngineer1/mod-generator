@@ -6,9 +6,109 @@
         author: 'Not Mark',
     },
 
+    item_definitions: {
+        Minetest: {
+            clay: 'default:clay_lump',
+
+            // Dyes
+            white_dye: 'dye:white',
+            orange_dye: 'dye:orange',
+            magenta_dye: 'dye:magenta',
+            light_blue_dye: 'dye:blue', // Item doesn't exist!
+            yellow_dye: 'dye:yellow',
+            lime_dye: 'dye:green',
+            pink_dye: 'dye:pink',
+            gray_dye: 'dye:dark_gray',
+            light_gray_dye: 'dye:gray',
+            cyan_dye: 'dye:cyan',
+            purple_dye: 'dye:violet',
+            blue_dye: 'dye:blue',
+            brown_dye: 'dye:brown',
+            green_dye: 'dye:dark_green',
+            red_dye: 'dye:red',
+            black_dye: 'dye:black',
+        }
+    },
+
+    recipes: {
+        shaped: [
+            {
+                output: '!mod.poke_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.red_dye', '!item_definitions.red_dye', '!item_definitions.red_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.great_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.red_dye', '!item_definitions.blue_dye', '!item_definitions.red_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.ultra_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.yellow_dye', '!item_definitions.black_dye', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.master_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.pink_dye', '!item_definitions.purple_dye', '!item_definitions.pink_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.premier_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye'],
+                    ['!item_definitions.red_dye', '!item_definitions.clay', '!item_definitions.red_dye'],
+                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
+                ]
+            },
+            {
+                output: '!mod.cherish_ball_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye'],
+                    ['!item_definitions.red_dye', '!item_definitions.clay_dye', '!item_definitions.red_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
+                ]
+            },
+            {
+                output: '!item_definitions.white_dye',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye'],
+                    ['!item_definitions.red_dye', '!item_definitions.clay_dye', '!item_definitions.red_dye'],
+                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
+                ]
+            },
+        ],
+
+        // shapeless: [
+
+        // ],
+
+        // smelting: [
+            
+        // ],
+    },
+
     elements: {
+        // Note: All the element ids end with _1 because I plan for having multiple varients
         items: [
-            // Note: All the element ids end with _1 because I plan for having multiple varients
             {
                 id: 'tomato_1',
                 name: 'Tomato',

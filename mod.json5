@@ -86,15 +86,6 @@
                     ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
                 ]
             },
-            {
-                output: '!item_definitions.white_dye',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye'],
-                    ['!item_definitions.red_dye', '!item_definitions.clay_dye', '!item_definitions.red_dye'],
-                    ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
-                ]
-            },
         ],
 
         // shapeless: [

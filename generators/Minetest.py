@@ -1,4 +1,5 @@
 import os, shutil
+from functions import *
 
 def Generate(mod, args):
     if os.path.exists('output/Minetest') != True:
@@ -263,7 +264,7 @@ def Generate(mod, args):
                 #endregion
 
                 #region 5
-                outputItem = i['recipe'][1][0]
+                outputItem = i['recipe'][1][1]
                 outputItem = str(outputItem)
 
                 if outputItem.startswith('!mod.'):

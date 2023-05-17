@@ -9,7 +9,7 @@ parser.add_argument('-r', '--run', action='store_true', help='Specify wether to 
 parser.add_argument('-m', '--mod', help='Specify the path to the mod definition JSON5 file')
 parser.add_argument('--game-list', action='store_true', help='Lists the available games')
 parser.add_argument('--run-command', help='Specify the command used to run the game client')
-parser.add_argument('--create-mod', action='store_true', help='Creates a mod definition file')
+parser.add_argument('--create-modDef', action='store_true', help='Creates a mod definition file')
 args = parser.parse_args()
 
 def Main():
@@ -30,7 +30,7 @@ def Main():
 
 if __name__ == '__main__' or 'main':
     #region args.create_mod
-    if args.create_mod:
+    if args.create_modDef:
         if os.path.exists('./mod.json5'):
             sys.exit('\'mod.json5\' already exists!')
 

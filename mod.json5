@@ -63,6 +63,82 @@
                 id: 'cherish_ball_1',
                 name: 'Cherish Ball',
             },
+            {
+                id: 'beast_ball_1',
+                name: 'Beast Ball',
+            },
+
+            // Poke Balls (Cobblemon https://modrinth.com/mod/cobblemon)
+            {
+                id: 'azure_ball_1',
+                name: 'Azure Ball',
+            },
+            {
+                id: 'citrine_ball_1',
+                name: 'Citrine Ball',
+            },
+            {
+                id: 'roseate_ball_1',
+                name: 'Roseate Ball',
+            },
+            {
+                id: 'slate_ball_1',
+                name: 'Slate Ball',
+            },
+            {
+                id: 'verdant_ball_1',
+                name: 'Verdant Ball',
+            },
+
+            // Coins
+            {
+                id: 'gold_coin_1',
+                name: 'Gold Coin',
+            },
+            {
+                id: 'gold_coin_2',
+                name: 'Gold Coin',
+            },
+
+            {
+                id: 'silver_coin_1',
+                name: 'Silver Coin',
+            },
+
+            // Apricorns
+            {
+                id: 'red_apricorn_1',
+                name: 'Red Apricorn',
+            },
+            {
+                id: 'red_apricorn_2',
+                name: 'Red Apricorn',
+            },
+            
+            {
+                id: 'blue_apricorn_1',
+                name: 'Blue Apricorn',
+            },
+            {
+                id: 'green_apricorn_1',
+                name: 'Green Apricorn',
+            },
+            {
+                id: 'yellow_apricorn_1',
+                name: 'Yellow Apricorn',
+            },
+            {
+                id: 'pink_apricorn_1',
+                name: 'Pink Apricorn',
+            },
+            {
+                id: 'black_apricorn_1',
+                name: 'Black Apricorn',
+            },
+            {
+                id: 'white_apricorn_1',
+                name: 'White Apricorn',
+            },
         ],
 
         blocks: [

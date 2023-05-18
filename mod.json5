@@ -4,6 +4,13 @@
         id: 'not_marks_stuff',
         desc: 'A bunch of stuff I made',
         author: 'Not Mark',
+
+        // Java related stuff
+        java_package: [
+            'com',
+            'not_mark',
+            'stuff',
+        ]
     },
 
     item_definitions: {
@@ -27,7 +34,7 @@
             green_dye: 'dye:dark_green',
             red_dye: 'dye:red',
             black_dye: 'dye:black',
-        },
+        }
     },
 
     recipes: {
@@ -78,7 +85,6 @@
                 ]
             },
 
-            // Poke Balls
             {
                 output: '!mod.poke_ball_1',
                 amount: 1,
@@ -142,7 +148,6 @@
                     ['!item_definitions.black_dye', '!item_definitions.red_dye', '!item_definitions.black_dye']
                 ]
             },
-            // Poke Balls exclusive to the 'Cobblemon' mod for Minecraft
             {
                 output: '!mod.slate_ball_1',
                 amount: 1,
@@ -186,80 +191,6 @@
                     ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.blue_dye'],
                     ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
                     ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
-                ]
-            },
-
-            // Apricorns
-            {
-                output: '!mod.black_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.black_dye', '!item_definitions.black_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.black_dye', '!item_definitions.clay', '!item_definitions.black_dye'],
-                    ['!item_definitions.black_dye', '!item_definitions.black_dye', '!item_definitions.black_dye']
-                ]
-            },
-            {
-                output: '!mod.white_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.white_dye', '!item_definitions.clay', '!item_definitions.white_dye'],
-                    ['!item_definitions.white_dye', '!item_definitions.white_dye', '!item_definitions.white_dye']
-                ]
-            },
-            {
-                output: '!mod.red_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.red_dye', '!item_definitions.red_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.red_dye', '!item_definitions.clay', '!item_definitions.red_dye'],
-                    ['!item_definitions.red_dye', '!item_definitions.red_dye', '!item_definitions.red_dye']
-                ]
-            },
-            {
-                output: '!mod.green_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.green_dye', '!item_definitions.green_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.green_dye', '!item_definitions.clay', '!item_definitions.green_dye'],
-                    ['!item_definitions.green_dye', '!item_definitions.green_dye', '!item_definitions.green_dye']
-                ]
-            },
-            {
-                output: '!mod.blue_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.blue_dye', '!item_definitions.clay', '!item_definitions.blue_dye'],
-                    ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.blue_dye']
-                ]
-            },
-            {
-                output: '!mod.blue_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.blue_dye', '!item_definitions.clay', '!item_definitions.blue_dye'],
-                    ['!item_definitions.blue_dye', '!item_definitions.blue_dye', '!item_definitions.blue_dye']
-                ]
-            },
-            {
-                output: '!mod.pink_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.pink_dye', '!item_definitions.pink_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.pink_dye', '!item_definitions.clay', '!item_definitions.pink_dye'],
-                    ['!item_definitions.pink_dye', '!item_definitions.pink_dye', '!item_definitions.pink_dye']
-                ]
-            },
-            {
-                output: '!mod.yellow_apricorn_1',
-                amount: 1,
-                recipe: [
-                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.brown_dye'],
-                    ['!item_definitions.yellow_dye', '!item_definitions.clay', '!item_definitions.yellow_dye'],
-                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.yellow_dye']
                 ]
             },
         ],

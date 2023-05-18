@@ -1,9 +1,8 @@
 import os, json5, argparse, sys
 
-import generators.Minetest
+import generators.Minetest, generators.Minecraft_1_19_3
 
 parser = argparse.ArgumentParser(prog='ModGenerator', description='What the program does', epilog='Text at the bottom of help')
-parser.add_argument('-s', '--silence', action='store_true')
 parser.add_argument('-g', '--game', help='Specify the game to generate a mod for')
 parser.add_argument('-r', '--run', action='store_true', help='Specify wether to run the game client')
 parser.add_argument('-m', '--mod', help='Specify the path to the mod definition JSON5 file')
@@ -27,6 +26,7 @@ def Main():
         modData = json5.load(f)
 
     generators.Minetest.Generate(modData, args)
+    generators.Minecraft_1_19_3.Generate(modData, args)
 
 if __name__ == '__main__' or 'main':
     #region args.create_mod

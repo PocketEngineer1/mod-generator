@@ -180,14 +180,14 @@ def Generate(mod, args):
                             write = True
                             break
                     for j in mod['elements']['blocks']:
-                        if outputItem == j['id'] or '':
+                        if outputItem == j['id']:
                             out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
                             write = True
                             break
                 elif outputItem.startswith('!item_definitions.'):
                     outputItem = outputItem.split('!item_definitions.', 1)[1]
                     for j in mod['item_definitions']['Minetest']:
-                        if j == outputItem or '':
+                        if j == outputItem:
                             out = out.replace('!recipe.ingredient_1', mod['item_definitions']['Minetest'][j])
                             write = True
                             break

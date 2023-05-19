@@ -16,6 +16,9 @@ def Generate(mod, args):
         os.mkdir('output/Minecraft 1.19.3/src/main/java')
 
     if len(mod['mod']['java_package']) == 3:
+        java_pkg_path = mod['mod']['java_package'][0] + '/' + mod['mod']['java_package'][1] + '/' + mod['mod']['java_package'][2]
+        java_pkg = mod['mod']['java_package'][0] + '.' + mod['mod']['java_package'][1] + '.' + mod['mod']['java_package'][2]
+
         if os.path.exists('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0]) != True:
             os.mkdir('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0])
 
@@ -31,6 +34,9 @@ def Generate(mod, args):
         if os.path.exists('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0] + '/' + mod['mod']['java_package'][1] + '/' + mod['mod']['java_package'][2] + '/Items') != True:
             os.mkdir('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0] + '/' + mod['mod']['java_package'][1] + '/' + mod['mod']['java_package'][2] + '/Items')
     elif len(mod['mod']['java_package']) == 2:
+        java_pkg_path = mod['mod']['java_package'][0] + '/' + mod['mod']['java_package'][1]
+        java_pkg = mod['mod']['java_package'][0] + '.' + mod['mod']['java_package'][1]
+
         if os.path.exists('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0]) != True:
             os.mkdir('output/Minecraft 1.19.3/src/main/java/' + mod['mod']['java_package'][0])
 
@@ -98,6 +104,52 @@ def Generate(mod, args):
     shutil.copyfile('templates/Minecraft 1.19.3/gradle.properties', 'output/Minecraft 1.19.3/gradle.properties')
     shutil.copyfile('templates/Minecraft 1.19.3/settings.gradle', 'output/Minecraft 1.19.3/settings.gradle')
     shutil.copyfile('templates/Minecraft 1.19.3/build.gradle', 'output/Minecraft 1.19.3/build.gradle')
+    #endregion
+
+    #region MainItemGroup.java
+    with open('templates/Minecraft 1.19.3/src/main/java/package/MainItemGroup.java', 'r') as f:
+        file = f.read()
+        f.close()
+
+    file = file.replace('!mod.id', mod['mod']['id'])
+    file = file.replace('!mod.java_pkg', java_pkg)
+    file += "\n\n"
+
+    with open('output/Minecraft 1.19.3/src/main/java/' + java_pkg_path + '/MainItemGroup.java', 'w') as f:
+        f.write(file)
+        f.close()
+    #endregion
+    
+    #region Blocks.java
+    if len(mod['elements']['blocks']) > 0:
+        for i in mod['elements']['blocks']:
+            with open('templates/Minecraft 1.19.3/src/main/java/package/Blocks.java', 'r') as f:
+                file = f.read()
+                f.close()
+
+            file = file.replace('!block.id', i['id'])
+            file = file.replace('!mod.id', mod['mod']['id'])
+            file = file.replace('!mod.java_pkg', java_pkg)
+
+            with open('output/Minecraft 1.19.3/src/main/java/' + java_pkg_path + '/Blocks/' + i['id'] + '.java', 'w') as f:
+                f.write(file)
+                f.close()
+    #endregion
+    
+    #region Items.java
+    if len(mod['elements']['items']) > 0:
+        for i in mod['elements']['items']:
+            with open('templates/Minecraft 1.19.3/src/main/java/package/Items.java', 'r') as f:
+                file = f.read()
+                f.close()
+
+            file = file.replace('!item.id', i['id'])
+            file = file.replace('!mod.id', mod['mod']['id'])
+            file = file.replace('!mod.java_pkg', java_pkg)
+
+            with open('output/Minecraft 1.19.3/src/main/java/' + java_pkg_path + '/Items/' + i['id'] + '.java', 'w') as f:
+                f.write(file)
+                f.close()
     #endregion
 
     #region assets

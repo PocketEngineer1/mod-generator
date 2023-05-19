@@ -48,9 +48,6 @@ def Generate(mod, args):
         f.close()
 
     file = file.replace('!mod.id', mod['mod']['id'])
-    file = file.replace('!mod.name', mod['mod']['name'])
-    file = file.replace('!mod.desc', mod['mod']['desc'])
-    file = file.replace('!mod.author', mod['mod']['author'])
     file += "\n\n"
 
     with open('output/Minetest/craftitems.lua', 'w') as f:
@@ -90,9 +87,6 @@ def Generate(mod, args):
         f.close()
 
     file = file.replace('!mod.id', mod['mod']['id'])
-    file = file.replace('!mod.name', mod['mod']['name'])
-    file = file.replace('!mod.desc', mod['mod']['desc'])
-    file = file.replace('!mod.author', mod['mod']['author'])
     file += "\n\n"
 
     with open('output/Minetest/nodes.lua', 'w') as f:

@@ -4,7 +4,8 @@
         id: 'not_marks_stuff',
         desc: 'A bunch of stuff I made',
         author: 'Not Mark',
-        
+        main_lang: 'en_US', // Defines the language element names are written in
+
         java_package: [
             'com',
             'notmark',
@@ -228,35 +229,6 @@
     elements: {
         // Note: All the element ids end with _1 because I plan for having multiple varients
         items: [
-            {
-                id: 'tomato_1',
-                name: 'Tomato',
-            },
-            {
-                id: 'carrot_1',
-                name: 'Carrot',
-            },
-            {
-                id: 'coffee_1',
-                name: 'Coffee',
-            },
-            {
-                id: 'banana_1',
-                name: 'Banana',
-            },
-            {
-                id: 'banana_1',
-                name: 'Banana',
-            },
-            {
-                id: 'mango_1',
-                name: 'Mango',
-            },
-            {
-                id: 'peanut_butter_1',
-                name: 'Peanut Butter',
-            },
-
             // Poke Balls (Main Series)
             {
                 id: 'poke_ball_1',
@@ -370,5 +342,36 @@
                 name: 'Cobble',
             },
         ],
+
+        food: [
+            {
+                id: 'tomato_1',
+                name: 'Tomato',
+            },
+            {
+                id: 'carrot_1',
+                name: 'Carrot',
+            },
+            {
+                id: 'coffee_1',
+                name: 'Coffee',
+            },
+            {
+                id: 'banana_1',
+                name: 'Banana',
+            },
+            {
+                id: 'banana_1',
+                name: 'Banana',
+            },
+            {
+                id: 'mango_1',
+                name: 'Mango',
+            },
+            {
+                id: 'peanut_butter_1',
+                name: 'Peanut Butter',
+            },
+        ]
     },
 }

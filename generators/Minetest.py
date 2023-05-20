@@ -143,6 +143,47 @@ def Generate(mod, args):
     del Task
     #endregion
 
+    #region food.lua
+    def Task():
+        with open('templates/Minetest/food.lua/head.lua', 'r') as f:
+            file = f.read()
+            f.close()
+
+        file = file.replace('!mod.id', mod['mod']['id'])
+        file += "\n\n"
+
+        with open('output/Minetest/food.lua', 'w') as f:
+            f.write(file)
+            f.close()
+        
+        with open('templates/Minetest/food.lua/body.lua', 'r') as f:
+            template = f.read()
+            f.close()
+
+        with open('output/Minetest/food.lua', 'a') as f:
+            if len(mod['elements']['food']) > 0:
+                for i in mod['elements']['food']:
+                    out = template
+                    out = out.replace('!food.id', i['id'])
+                    out = out.replace('!food.name', i['name'])
+                    out += "\n\n"
+                    f.write(out)
+            else:
+                f.write('-- No food to register')
+            f.close()
+        
+        with open('output/Minetest/food.lua', 'r') as f:
+            file = f.read()
+            f.close()
+        
+        with open('output/Minetest/food.lua', 'w') as f:
+            f.write(file.rstrip())
+            f.close()
+    
+    RunTask(Task, 'Create food.lua')
+    del Task
+    #endregion
+
     #region crafting
     #region shaped.lua
     def Task():

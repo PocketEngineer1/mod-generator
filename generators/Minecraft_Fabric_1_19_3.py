@@ -60,6 +60,7 @@ def Generate(mod, args):
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources')
 
+        #region assets
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets')
 
@@ -82,11 +83,13 @@ def Generate(mod, args):
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures')
 
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item') != True:
-            os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/items')
+            os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item')
 
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
+        #endregion
 
+        #region data
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/data/minecraft') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/data/minecraft')
 
@@ -107,6 +110,7 @@ def Generate(mod, args):
 
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/loot_tables/blocks') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/loot_tables/blocks')
+        #endregion
         #endregion
     
     RunTask(Task, 'Create gradle files')
@@ -154,6 +158,17 @@ def Generate(mod, args):
     del Task
     #endregion
 
+    #region language files
+    def Task():
+        global lang
+        with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/lang/lang.json', 'r') as f:
+            lang = f.read()
+            f.close()
+    
+    RunTask(Task, 'Create language files')
+    del Task
+    #endregion
+
     #region MainItemGroup.java
     def Task():
         global fabric_mod_json
@@ -176,7 +191,9 @@ def Generate(mod, args):
     #region Blocks.java
     def Task():
         global fabric_mod_json
+        global lang
         blocks = ''
+        blocks_lang = ''
 
         if len(mod['elements']['blocks']) > 0:
             for i in mod['elements']['blocks']:
@@ -192,10 +209,12 @@ def Generate(mod, args):
                     f.write(file)
                     f.close()
                 
-                blocks += ',\n			"' + java_pkg + '.Blocks.' + i['id'] + '"'
+                blocks += ',\n  "' + java_pkg + '.Blocks.' + i['id'] + '"'
+                blocks_lang += ',\n  "' + mod['mod']['id'] + ':' + i['id'] + '":"' + i['name'] + '"'
 
         blocks = blocks.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!blocks', blocks)
+        lang = lang.replace('!blocks', blocks_lang)
     
     RunTask(Task, 'Create Blocks.java')
     del Task
@@ -204,7 +223,9 @@ def Generate(mod, args):
     #region Items.java
     def Task():
         global fabric_mod_json
+        global lang
         items = ''
+        items_lang = ''
 
         if len(mod['elements']['items']) > 0:
             for i in mod['elements']['items']:
@@ -220,10 +241,13 @@ def Generate(mod, args):
                     f.write(file)
                     f.close()
                 
-                items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '"'
+                items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '":"' + i['name'] + '"'
+                items_lang += ',\n  "' + mod['mod']['id'] + ':' + i['id'] + '":"' + i['name'] + '"'
 
         items = items.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!items', items)
+        lang = lang.replace('!items', items_lang)
+        lang = lang.replace('{,', '{')
     
     RunTask(Task, 'Create Items.java')
     del Task
@@ -231,6 +255,10 @@ def Generate(mod, args):
 
     #region assets
     def Task():
+        with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/lang/' + mod['mod']['main_lang'] + '.json', 'w') as f:
+            f.write(lang)
+            f.close()
+
         with open('output/Minecraft Fabric 1.19.3/src/main/resources/fabric.mod.json', 'w') as f:
             f.write(fabric_mod_json)
             f.close()

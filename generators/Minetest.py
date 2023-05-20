@@ -9,6 +9,15 @@ def Generate(mod, args):
 
         if os.path.exists('output/Minetest/crafting') != True:
             os.mkdir('output/Minetest/crafting')
+
+        if os.path.exists('output/Minetest/textures') != True:
+            os.mkdir('output/Minetest/textures')
+
+        if os.path.exists('output/Minetest/textures/blocks') != True:
+            os.mkdir('output/Minetest/textures/blocks')
+
+        if os.path.exists('output/Minetest/textures/items') != True:
+            os.mkdir('output/Minetest/textures/items')
     
     RunTask(Task, 'Create output directories')
     del Task
@@ -446,10 +455,14 @@ def Generate(mod, args):
 
     #region assets
     def Task():
-        if os.path.exists('output/Minetest/textures'):
-            shutil.rmtree('output/Minetest/textures')
-        shutil.copytree('assets/textures', 'output/Minetest/textures')
+        if os.path.exists('output/Minetest/textures/items'):
+            shutil.rmtree('output/Minetest/textures/items')
+        shutil.copytree('assets/textures/items', 'output/Minetest/textures/items')
+        
+        if os.path.exists('output/Minetest/textures/blocks'):
+            shutil.rmtree('output/Minetest/textures/blocks')
+        shutil.copytree('assets/textures/blocks', 'output/Minetest/textures/blocks')
     
-    RunTask(Task, 'Create crafting/shaped.lua')
+    RunTask(Task, 'Copy assets to output')
     del Task
     #endregion

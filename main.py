@@ -28,7 +28,7 @@ def Main():
     print('Started task \'Create Minetest mod\'')
     generators.Minetest.Generate(modData, args)
     print('Completed task \'Create Minetest mod\'')
-
+    
     print('Started task \'Create MInecraft Fabric 1.19.3 mod\'')
     generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
     print('Completed task \'Create MInecraft Fabric 1.19.3 mod\'')

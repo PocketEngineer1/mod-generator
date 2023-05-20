@@ -10,5 +10,3 @@ def RunTask(task, taskName: str):
             print('Completed task \'' + taskName + '\'')
         else:
             print('Completed task \'' + taskName + '\' with exception! ' + exept.__class__.__name__ + '\n' + str(exept))
-            pass
-        exept = None

@@ -4,13 +4,12 @@
         id: 'not_marks_stuff',
         desc: 'A bunch of stuff I made',
         author: 'Not Mark',
-
-        // Java related stuff
+        
         java_package: [
             'com',
             'notmark',
             'stuff',
-        ]
+        ],
     },
 
     item_definitions: {
@@ -34,6 +33,28 @@
             green_dye: 'dye:dark_green',
             red_dye: 'dye:red',
             black_dye: 'dye:black',
+        },
+
+        'Minecraft Fabric 1.19.3': {
+            clay: '',
+
+            // Dyes
+            white_dye: '',
+            orange_dye: '',
+            magenta_dye: '',
+            light_blue_dye: '',
+            yellow_dye: '',
+            lime_dye: '',
+            pink_dye: '',
+            gray_dye: '',
+            light_gray_dye: '',
+            cyan_dye: '',
+            purple_dye: '',
+            blue_dye: '',
+            brown_dye: '',
+            green_dye: '',
+            red_dye: '',
+            black_dye: '',
         }
     },
 
@@ -195,13 +216,13 @@
             },
         ],
 
-        // shapeless: [
+        shapeless: [
 
-        // ],
+        ],
 
-        // smelting: [
+        smelting: [
             
-        // ],
+        ],
     },
 
     elements: {

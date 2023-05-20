@@ -1,6 +1,6 @@
 import os, json5, argparse, sys
 
-import generators.Minetest, generators.Minecraft_1_19_3
+import generators.Minetest, generators.Minecraft_Fabric_1_19_3
 
 parser = argparse.ArgumentParser(prog='ModGenerator', description='What the program does', epilog='Text at the bottom of help')
 parser.add_argument('-g', '--game', help='Specify the game to generate a mod for')
@@ -12,7 +12,7 @@ parser.add_argument('--create-modDef', action='store_true', help='Creates a mod 
 args = parser.parse_args()
 
 def Main():
-    print(args)
+    # print(args)
 
     if os.path.exists('output') != True:
         os.mkdir('output')
@@ -25,8 +25,13 @@ def Main():
     with open(modDef, 'r') as f:
         modData = json5.load(f)
 
+    print('Started task \'Create Minetest mod\'')
     generators.Minetest.Generate(modData, args)
-    generators.Minecraft_1_19_3.Generate(modData, args)
+    print('Completed task \'Create Minetest mod\'')
+
+    print('Started task \'Create MInecraft Fabric 1.19.3 mod\'')
+    generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
+    print('Completed task \'Create MInecraft Fabric 1.19.3 mod\'')
 
 if __name__ == '__main__' or 'main':
     #region args.create_mod
@@ -41,6 +46,30 @@ if __name__ == '__main__' or 'main':
         id: 'example_mod',
         desc: 'Describe your mod',
         author: 'Me!',
+
+        java_package: [
+            'example',
+            'mod',
+        ],
+    },
+    
+    item_definitions: {
+        Minetest: {
+        },
+
+        'Minecraft Fabric 1.19.3': {
+        }
+    },
+
+    recipes: {
+        shaped: [
+        ],
+
+        shapeless: [
+        ],
+
+        smelting: [
+        ],
     },
 
     elements: {

@@ -1,4 +1,5 @@
 import os, shutil
+
 from functions import *
 
 def Generate(mod, args):
@@ -253,27 +254,39 @@ def Generate(mod, args):
     del Task
     #endregion
 
-    #region assets
+    #region resources
     def Task():
-        with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/lang/' + mod['mod']['main_lang'] + '.json', 'w') as f:
-            f.write(lang)
-            f.close()
-
-        with open('output/Minecraft Fabric 1.19.3/src/main/resources/fabric.mod.json', 'w') as f:
-            f.write(fabric_mod_json)
-            f.close()
-
-        if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item'):
-            shutil.rmtree('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item')
+        def SubTask():
+            with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/lang/' + mod['mod']['main_lang'] + '.json', 'w') as f:
+                f.write(lang)
+                f.close()
         
-        if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block'):
-            shutil.rmtree('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
-        
-        shutil.copytree('assets/textures/items', 'output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item')
-        shutil.copytree('assets/textures/blocks', 'output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
+        RunTask(SubTask, 'Write language files', True)
+        del SubTask
+
+        def SubTask():
+            with open('output/Minecraft Fabric 1.19.3/src/main/resources/fabric.mod.json', 'w') as f:
+                f.write(fabric_mod_json)
+                f.close()
+
+        RunTask(SubTask, 'Write fabric.mod.json', True)
+        del SubTask
+
+        def SubTask():
+            if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item'):
+                shutil.rmtree('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item')
+            
+            if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block'):
+                shutil.rmtree('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
+            
+            shutil.copytree('assets/textures/items', 'output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/item')
+            shutil.copytree('assets/textures/blocks', 'output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
+
+        RunTask(SubTask, 'Copy textures to output', True)
+        del SubTask
         
         shutil.copyfile('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/icon.png', 'output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/icon.png')
     
-    RunTask(Task, 'Copy assets to output')
+    RunTask(Task, 'Copy resources to output')
     del Task
     #endregion

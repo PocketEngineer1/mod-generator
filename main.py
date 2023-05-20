@@ -1,4 +1,5 @@
 import os, json5, argparse, sys
+from datetime import datetime
 
 import generators.Minetest, generators.Minecraft_Fabric_1_19_3
 
@@ -25,13 +26,21 @@ def Main():
     with open(modDef, 'r') as f:
         modData = json5.load(f)
 
-    print('Started task \'Create Minetest mod\'')
+    now = datetime.now()
+    current_time = now.strftime("[%H:%M:%S]")
+    print(current_time + ' Started task \'Create Minetest mod\'')
     generators.Minetest.Generate(modData, args)
-    print('Completed task \'Create Minetest mod\'')
+    now = datetime.now()
+    current_time = now.strftime("[%H:%M:%S]")
+    print(current_time + ' Completed task \'Create Minetest mod\'')
     
-    print('Started task \'Create MInecraft Fabric 1.19.3 mod\'')
+    now = datetime.now()
+    current_time = now.strftime("[%H:%M:%S]")
+    print(current_time + ' Started task \'Create MInecraft Fabric 1.19.3 mod\'')
     generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-    print('Completed task \'Create MInecraft Fabric 1.19.3 mod\'')
+    now = datetime.now()
+    current_time = now.strftime("[%H:%M:%S]")
+    print(current_time + ' Completed task \'Create MInecraft Fabric 1.19.3 mod\'')
 
 if __name__ == '__main__' or 'main':
     #region args.create_mod

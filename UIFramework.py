@@ -7,10 +7,58 @@ class Element:
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
 
+class TextInput(Element):
+    def __init__(self, x, y, width, height, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
+        super().__init__(x, y, width, height)
+        self.text = ''
+        self.font = pygame.font.Font(font, font_size)
+        self.placeholder = placeholder
+        self.placeholder_color = placeholder_color
+        self.text_color = text_color
+        self.active_color = active_color
+        self.inactive_color = inactive_color
+        self.active = False
+        self.on_change = on_change
+
+    def draw(self, surface):
+        # Draw the text input box
+        pygame.draw.rect(surface, self.active_color if self.active else self.inactive_color, self.rect, 2)
+
+        # Draw the text if it exists
+        if self.text != '':
+            text_surface = self.font.render(self.text, True, self.text_color)
+            surface.blit(text_surface, (self.rect.x + 5, self.rect.y + 5))
+        # Draw the placeholder text if the input is empty
+        else:
+            placeholder_surface = self.font.render(self.placeholder, True, self.placeholder_color)
+            surface.blit(placeholder_surface, (self.rect.x + 5, self.rect.y + 5))
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Toggle the active state of the input if clicked on
+            if self.rect.collidepoint(event.pos):
+                self.active = not self.active
+            else:
+                self.active = False
+            # Update the text color based on the active state
+            self.text_color = (0, 0, 0) if self.active else (128, 128, 128)
+        elif event.type == pygame.KEYDOWN:
+            # Add characters to the input text if active
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    self.active = False
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
+                # Call the on_change function if it exists
+                if self.on_change is not None:
+                    self.on_change(self.text)
+
 #region RadioButton
 class RadioButton(Element):
     def __init__(self, x, y, size=20, color=(0, 0, 0), selected=False, group=None, click_handler=None, label='', font=None, font_size=20):
-        super().__init__(x, y, size, size)  # Call the __init__ method of the Element class
+        super().__init__(x, y, size, size)
         self.color = color
         self.selected = selected
         self.group = group

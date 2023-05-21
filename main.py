@@ -116,23 +116,25 @@ def Main():
             ui = UI.UI(800, 600, 'Not Mark\'s Mod Generator')
 
             text = UI.Text(10, 5, 'Hello World!')
-            rectangle = UI.Rectangle(210, 20, 200, 200, (0, 0, 0))
-            circle = UI.Circle(210, 20, 200, 200, 100, (155, 155, 155))
+            rectangle = UI.Rectangle(140, 20, 200, 200, (0, 0, 0))
+            circle = UI.Circle(200, 80, 200, 200, 100, (155, 155, 155))
             button = UI.Button(10, 30, 120, 30, text='Hello?')
-            checkbox = UI.Checkbox(10, 160)
+            text_input = UI.TextInput(10, 70, 120, 30, placeholder='Hello?')
+            checkbox = UI.Checkbox(10, 200)
 
             ui.add_element(text)
             ui.add_element(rectangle)
             ui.add_element(circle)
             ui.add_element(button)
+            ui.add_element(text_input)
             ui.add_element(checkbox)
 
             #region RadioButton
             radio_buttons = UI.RadioButtonGroup()
 
-            radio_button_1 = UI.RadioButton(10, 70, group=radio_buttons)
-            radio_button_2 = UI.RadioButton(10, 100, group=radio_buttons)
-            radio_button_3 = UI.RadioButton(10, 130, group=radio_buttons)
+            radio_button_1 = UI.RadioButton(10, 110, group=radio_buttons)
+            radio_button_2 = UI.RadioButton(10, 140, group=radio_buttons)
+            radio_button_3 = UI.RadioButton(10, 170, group=radio_buttons)
 
             ui.add_element(radio_button_1)
             ui.add_element(radio_button_2)
@@ -145,13 +147,22 @@ def Main():
         ui_thread.start()
         ui_thread.join()
     else:
-        Log('Started task \'Create Minetest mod\'', 'INFO')
-        generators.Minetest.Generate(modData, args)
-        Log('Completed task \'Create Minetest mod\'', 'INFO')
-        
-        Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
-        generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-        Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+        if args.game == 'Minetest':
+            Log('Started task \'Create Minetest mod\'', 'INFO')
+            generators.Minetest.Generate(modData, args)
+            Log('Completed task \'Create Minetest mod\'', 'INFO')
+        elif args.game == 'Minecraft Fabric 1.19.3':
+            Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
+            Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+        else:
+            Log('Started task \'Create Minetest mod\'', 'INFO')
+            generators.Minetest.Generate(modData, args)
+            Log('Completed task \'Create Minetest mod\'', 'INFO')
+            
+            Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
+            Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
 
 if __name__ == '__main__' or 'main':
     Main()

@@ -1,7 +1,7 @@
 import os, json5, argparse, sys
-from datetime import datetime
 
 import generators.Minetest, generators.Minecraft_Fabric_1_19_3
+from functions import *
 
 parser = argparse.ArgumentParser(prog='ModGenerator', description='What the program does', epilog='Text at the bottom of help')
 parser.add_argument('-g', '--game', help='Specify the game to generate a mod for')
@@ -13,7 +13,8 @@ parser.add_argument('--create-modDef', action='store_true', help='Creates a mod 
 args = parser.parse_args()
 
 def Main():
-    # print(args)
+    with open('mod-generator.log', 'w') as f:
+        f.write('')
 
     if os.path.exists('output') != True:
         os.mkdir('output')
@@ -26,21 +27,13 @@ def Main():
     with open(modDef, 'r') as f:
         modData = json5.load(f)
 
-    now = datetime.now()
-    current_time = now.strftime("[%H:%M:%S]")
-    print(current_time + ' Started task \'Create Minetest mod\'')
+    Log('Started task \'Create Minetest mod\'', 'INFO')
     generators.Minetest.Generate(modData, args)
-    now = datetime.now()
-    current_time = now.strftime("[%H:%M:%S]")
-    print(current_time + ' Completed task \'Create Minetest mod\'')
+    Log('Completed task \'Create Minetest mod\'', 'INFO')
     
-    now = datetime.now()
-    current_time = now.strftime("[%H:%M:%S]")
-    print(current_time + ' Started task \'Create MInecraft Fabric 1.19.3 mod\'')
+    Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
     generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-    now = datetime.now()
-    current_time = now.strftime("[%H:%M:%S]")
-    print(current_time + ' Completed task \'Create MInecraft Fabric 1.19.3 mod\'')
+    Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
 
 if __name__ == '__main__' or 'main':
     #region args.create_mod

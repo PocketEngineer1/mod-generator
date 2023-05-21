@@ -1,5 +1,6 @@
 import os, shutil
 
+
 from functions import *
 
 def Generate(mod, args):
@@ -121,18 +122,19 @@ def Generate(mod, args):
     #region gradle stuff
     def Task():
         #region gradle.properties
-        with open('templates/Minecraft Fabric 1.19.3/gradle.properties', 'r') as f:
-            file = f.read()
-            f.close()
+        def SubTask():
+            with open('templates/Minecraft Fabric 1.19.3/gradle.properties', 'r') as f:
+                file = f.read()
+                f.close()
 
-        file = file.replace('!mod.java_pkg1', java_pkg.replace('.', '-'))
-        file = file.replace('!mod.java_pkg', java_pkg)
+            file = file.replace('!mod.java_pkg1', java_pkg.replace('.', '-'))
+            file = file.replace('!mod.java_pkg', java_pkg)
 
-        with open('output/Minecraft Fabric 1.19.3/gradle.properties', 'w') as f:
-            f.write(file)
-            f.close()
-
-        del file
+            with open('output/Minecraft Fabric 1.19.3/gradle.properties', 'w') as f:
+                f.write(file)
+                f.close()
+        RunTask(SubTask, 'Create gradle.properties')
+        del SubTask
         #endregion
         
         shutil.copyfile('templates/Minecraft Fabric 1.19.3/settings.gradle', 'output/Minecraft Fabric 1.19.3/settings.gradle')
@@ -251,6 +253,39 @@ def Generate(mod, args):
         lang = lang.replace('{,', '{')
     
     RunTask(Task, 'Create Items.java')
+    del Task
+    #endregion
+
+    #region crafting
+    def Task():
+        #region shaped.lua
+        def SubTask():
+            if len(mod['recipes']['shaped']) > 0:
+                Log('Shaped recipes not implemented', 'WARN')
+        
+        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'shaped\'', True)
+        del SubTask
+        #endregion
+    
+        #region shapeless
+        def SubTask():
+            if len(mod['recipes']['shapeless']) > 0:
+                Log('Shapeless recipes not implemented', 'WARN')
+
+        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'shapeless\'', True)
+        del SubTask
+        #endregion
+
+        #region smelting
+        def SubTask():
+            if len(mod['recipes']['smelting']) > 0:
+                Log('Smelting recipes not implemented', 'WARN')
+
+        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'smelting\'', True)
+        del SubTask
+        #endregion
+    
+    RunTask(Task, 'Create recipe files')
     del Task
     #endregion
 

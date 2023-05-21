@@ -1,26 +1,27 @@
 from datetime import datetime
 
-def RunTask(task, taskName = 'Unnamed Task', isSubTask = False):
+def Log(message: str, level: str):
     now = datetime.now()
     current_time = now.strftime("[%H:%M:%S]")
+    print(current_time + ' ' + level + ': ' + message)
+    with open('mod-generator.log', 'a') as f:
+        f.write(current_time + ' ' + level + ': ' + message + '\n')
 
+def RunTask(task, taskName = 'Unnamed Task', isSubTask = False):
     exept = None
-    print(current_time + ' Started task \'' + taskName + '\'')
+    Log('Started task \'' + taskName + '\'', 'INFO')
     try:
         task()
     except Exception as e:
         exept = e
     finally:
-        now = datetime.now()
-        current_time = now.strftime("[%H:%M:%S]")
-        
         if exept == None:
             if isSubTask:
-                print(current_time + ' Completed sub task \'' + taskName + '\'')
+                Log('Completed sub task \'' + taskName + '\'', 'INFO')
             else:
-                print(current_time + ' Completed task \'' + taskName + '\'')
+                Log('Completed task \'' + taskName + '\'', 'INFO')
         else:
             if isSubTask:
-                print(current_time + ' Completed task \'' + taskName + '\' with exception! ' + exept.__class__.__name__ + '\n' + str(exept))
+                Log('Completed task \'' + taskName + '\' with exception! ' + exept.__class__.__name__ + '\n' + str(exept), 'ERROR')
             else:
-                print(current_time + ' Completed sub task \'' + taskName + '\' with exception! ' + exept.__class__.__name__ + '\n' + str(exept))
+                Log('Completed sub task \'' + taskName + '\' with exception! ' + exept.__class__.__name__ + '\n' + str(exept), 'ERROR')

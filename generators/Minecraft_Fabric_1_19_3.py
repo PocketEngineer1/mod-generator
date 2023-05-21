@@ -1,6 +1,4 @@
 import os, shutil
-
-
 from functions import *
 
 def Generate(mod, args):

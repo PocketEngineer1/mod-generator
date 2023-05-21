@@ -56,7 +56,7 @@
             green_dye: '',
             red_dye: '',
             black_dye: '',
-        }
+        },
     },
 
     recipes: {

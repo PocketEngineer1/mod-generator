@@ -65,10 +65,6 @@ class RadioButton(Element):
         self.click_handler = click_handler
         self.label = label
         self.font = pygame.font.Font(font, font_size)
-        
-        # If this button is part of a group, register it
-        if group is not None:
-            group.add_button(self)
 
     def draw(self, surface):
         # Draw the button outline
@@ -147,13 +143,38 @@ class Rectangle(Element):
         pass
 
 class Circle(Element):
-    def __init__(self, x, y, width, height, radius, color):
-        super().__init__(x, y, width, height)
+    def __init__(self, x, y, radius, color):
+        super().__init__(x, y, radius * 2, radius * 2)
         self.color = color
         self.radius = radius
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, self.rect.center, self.radius)
+
+    def handle_event(self, event):
+        pass
+
+class Ellipse(Element):
+    def __init__(self, x, y, width, height, color=(0, 0, 0)):
+        super().__init__(x, y, width, height)
+        self.color = color
+
+    def draw(self, surface):
+        pygame.draw.ellipse(surface, self.color, self.rect)
+
+    def handle_event(self, event):
+        pass
+
+class Line(Element):
+    def __init__(self, start, end, color=(0, 0, 0), thickness=1):
+        super().__init__(start[0], start[1], abs(start[0] - start[1]), abs(end[0] - end[1]))
+        self.color = color
+        self.start = start
+        self.end = end
+        self.thickness = thickness
+
+    def draw(self, surface):
+        pygame.draw.line(surface, self.color, self.start, self.end, self.thickness)
 
     def handle_event(self, event):
         pass

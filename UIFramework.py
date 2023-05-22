@@ -14,10 +14,15 @@ class Element:
         if group is not None:
             group.add_element(self)
 
+    def SetPosition(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
+
 class ElementGroup:
-    def __init__(self):
+    def __init__(self, name):
         self.elements = []
         self.enabled = True
+        self.name = name
 
     def add_element(self, element):
         self.elements.append(element)
@@ -31,11 +36,25 @@ class ElementGroup:
         for element in self.elements:
             element.enabled = True
         self.enabled = True
+
+    def add_element(self, element):
+        self.elements.append(element)
+
+    def clear_elements(self):
+        self.elements = []
     
     def get_element_by_name(self, name):
         for i in self.elements:
             if i.name == name:
                 return i
+        Log('Invalid element name', 'ERROR')
+    
+    def delete_element_by_name(self, name):
+        j = 0
+        for i in self.elements:
+            j += 1
+            if i.name == name:
+                del self.elements[i]
         Log('Invalid element name', 'ERROR')
 
 class TextInput(Element):
@@ -278,6 +297,7 @@ class UI:
         pygame.display.set_caption(title)
         self.clock = pygame.time.Clock()
         self.elements = []
+        self.groups = []
 
     def run(self):
         running = True
@@ -307,3 +327,31 @@ class UI:
             if i.name == name:
                 return i
         Log('Invalid element name', 'ERROR')
+    
+    def delete_element_by_name(self, name):
+        j = 0
+        for i in self.elements:
+            j += 1
+            if i.name == name:
+                del self.elements[i]
+        Log('Invalid element name', 'ERROR')
+
+    def add_group(self, group):
+        self.groups.append(group)
+
+    def clear_groups(self):
+        self.groups = []
+    
+    def get_group_by_name(self, name):
+        for i in self.groups:
+            if i.name == name:
+                return i
+        Log('Invalid group name', 'ERROR')
+    
+    def delete_group_by_name(self, name):
+        j = 0
+        for i in self.groups:
+            j += 1
+            if i.name == name:
+                del self.groups[i]
+        Log('Invalid group name', 'ERROR')

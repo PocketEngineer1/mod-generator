@@ -336,10 +336,11 @@ class UI:
             self.add_group(group)
 
             for element in group_dict:
-                if not element.startswith('@'):
-                    if group_dict[element]['@name'] == '':
-                        Log('Element with empty name', 'WARN')
-                    
+                try:
+                    if not element.startswith('@'):
+                        if group_dict[element]['@name'] == '':
+                            Log('Element with empty name', 'WARN')
+
                     if element == 'Text':
                         element_dict = group_dict[element]
                         element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group)
@@ -372,12 +373,52 @@ class UI:
                         element_dict = group_dict[element]
                         element_obj = Checkbox(group.name + ':Checkbox/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@size']), group=group)
                         self.add_element(element_obj)
+                    elif element == 'Image':
+                        element_dict = group_dict[element]
+                        element_obj = Image(group.name + ':Image/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@path'], scale=int(element_dict['@scale']), group=group)
+                        self.add_element(element_obj)
                     elif element == 'RadioButton':
                         Log('Radio Button outside of radio button group', 'ERROR')
                     # elif element == 'RadioButtonGroup':
                     #     for group_dict in doc['Window']['Group']:
                     #         sub_group = RadioButtonGroup(group_dict['@name'])
                     #         group.add_radio_button_group(sub_group)
+                        
+                except TypeError:
+                    for element_dict in group_dict[element]:
+                        if not element.startswith('@'):
+                            if element_dict['@name'] == '':
+                                Log('Element with empty name', 'WARN')
+
+                            if element == 'Text':
+                                element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Rectangle':
+                                element_obj = Rectangle(group.name + ':Rectangle/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), make_tuple(element_dict['@color']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Circle':
+                                element_obj = Circle(group.name + ':Circle/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@radius']), make_tuple(element_dict['@color']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Ellipse':
+                                element_obj = Ellipse(group.name + ':Ellipse/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), make_tuple(element_dict['@color']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Line':
+                                element_obj = Line(group.name + ':Line/' + element_dict['@name'], make_tuple(element_dict['@start']), make_tuple(element_dict['@end']), make_tuple(element_dict['@color']), thickness=int(element_dict['@thickness']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Button':
+                                element_obj = Button(group.name + ':Button/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), color=make_tuple(element_dict['@color']), text_color=make_tuple(element_dict['@text_color']), text=element_dict['@text'], group=group)
+                                self.add_element(element_obj)
+                            elif element == 'TextInput':
+                                element_obj = TextInput(group.name + ':TextInput/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), placeholder=element_dict['@placeholder'], group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Checkbox':
+                                element_obj = Checkbox(group.name + ':Checkbox/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@size']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'Image':
+                                element_obj = Image(group.name + ':Image/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@path'], scale=int(element_dict['@scale']), group=group)
+                                self.add_element(element_obj)
+                            elif element == 'RadioButton':
+                                Log('Radio Button outside of radio button group', 'ERROR')
 
     def run(self):
         running = True

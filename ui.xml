@@ -8,6 +8,8 @@
         <Button name="" x="10" y="30" width="120" height="30" text="Hello?" color="200,200,200" text_color="0,0,0" />
         <TextInput name="" x="10" y="70" width="120" height="30" placeholder="Hello?" />
         <Checkbox name="" x="10" y="200" size="20" placeholder="Hello?" />
+        <Image name="" x="150" y="250" scale="180" path="assets/textures/blocks/cobble_1.png" />
+        <Image name="peanut_butter" x="430" y="250" scale="180" path="assets/textures/items/peanut_butter_1.png" />
     </Group>
     <Group name="not_main" enabled="False">
     </Group>

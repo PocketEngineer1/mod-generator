@@ -22,6 +22,7 @@ class Element:
 class ElementGroup:
     def __init__(self, name):
         self.elements = []
+        self.radio_button_groups = []
         self.enabled = True
         self.name = name
 
@@ -57,6 +58,26 @@ class ElementGroup:
             if i.name == name:
                 del self.elements[i]
         Log('Invalid element name', 'ERROR')
+    
+    def add_radio_button_group(self, radio_button_group):
+        self.radio_button_groups.append(radio_button_group)
+
+    def clear_radio_button_groups(self):
+        self.radio_button_groups = []
+    
+    def get_radio_button_group_by_name(self, name):
+        for i in self.radio_button_groups:
+            if i.name == name:
+                return i
+        Log('Invalid radio_button_group name', 'ERROR')
+    
+    def delete_radio_button_group_by_name(self, name):
+        j = 0
+        for i in self.radio_button_groups:
+            j += 1
+            if i.name == name:
+                del self.radio_button_groups[i]
+        Log('Invalid radio button group name', 'ERROR')
 
 class TextInput(Element):
     def __init__(self, name, x, y, width, height, group=None, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
@@ -308,6 +329,10 @@ class UI:
         
         for group_dict in doc['Window']['Group']:
             group = ElementGroup(group_dict['@name'])
+            if group_dict['@enabled']:
+                group.enable()
+            else:
+                group.disable()
             self.add_group(group)
 
             for element in group_dict:
@@ -317,7 +342,7 @@ class UI:
                     
                     if element == 'Text':
                         element_dict = group_dict[element]
-                        element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], group=group)
+                        element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group)
                         self.add_element(element_obj)
                     elif element == 'Rectangle':
                         element_dict = group_dict[element]
@@ -335,6 +360,24 @@ class UI:
                         element_dict = group_dict[element]
                         element_obj = Line(group.name + ':Line/' + element_dict['@name'], make_tuple(element_dict['@start']), make_tuple(element_dict['@end']), make_tuple(element_dict['@color']), thickness=int(element_dict['@thickness']), group=group)
                         self.add_element(element_obj)
+                    elif element == 'Button':
+                        element_dict = group_dict[element]
+                        element_obj = Button(group.name + ':Button/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), color=make_tuple(element_dict['@color']), text_color=make_tuple(element_dict['@text_color']), text=element_dict['@text'], group=group)
+                        self.add_element(element_obj)
+                    elif element == 'TextInput':
+                        element_dict = group_dict[element]
+                        element_obj = TextInput(group.name + ':TextInput/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), placeholder=element_dict['@placeholder'], group=group)
+                        self.add_element(element_obj)
+                    elif element == 'Checkbox':
+                        element_dict = group_dict[element]
+                        element_obj = Checkbox(group.name + ':Checkbox/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@size']), group=group)
+                        self.add_element(element_obj)
+                    elif element == 'RadioButton':
+                        Log('Radio Button outside of radio button group', 'ERROR')
+                    # elif element == 'RadioButtonGroup':
+                    #     for group_dict in doc['Window']['Group']:
+                    #         sub_group = RadioButtonGroup(group_dict['@name'])
+                    #         group.add_radio_button_group(sub_group)
 
     def run(self):
         running = True

@@ -9,9 +9,6 @@ def GUI():
 
     main_group = UI.ElementGroup('main')
     
-    button = UI.Button('main:button/', 10, 30, 120, 30, text='Hello?', group=main_group)
-    text_input = UI.TextInput('main:text_input/', 10, 70, 120, 30, placeholder='Hello?', group=main_group)
-    checkbox = UI.Checkbox('main:checkbox/', 10, 200, group=main_group)
     image = UI.Image('main:image/', 150, 250, 'assets/textures/blocks/cobble_1.png', scale=180, group=main_group)
     image_peanut_butter = UI.Image('main:image/peanut_butter', 430, 250, 'assets/textures/items/peanut_butter_1.png', scale=180, group=main_group)
 

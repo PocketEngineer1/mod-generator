@@ -20,29 +20,11 @@ def GUI():
     radio_button_3 = UI.RadioButton('main:radio_button/3', 10, 170, button_group=radio_buttons, group=main_group)
     #endregion
 
-    def DoSomethingButtonClickHandler():
-        element = ui.get_element_by_name('main:image/peanut_butter')
-        element.SetPosition(element.rect.x + 10, element.rect.y + 10)
-
-    do_something_button = UI.Button('main:button/do_something', 680, 570, 120, 30, text='Do something', click_handler=DoSomethingButtonClickHandler)
-    ui.add_element(do_something_button)
-
-    def DoSomethingElseButtonClickHandler():
-        if main_group.enabled:
-            main_group.disable()
-        else:
-            main_group.enable()
-
-    do_something_else_button = UI.Button('main:button/do_something_else', 540, 570, 140, 30, text='Do something else', click_handler=DoSomethingElseButtonClickHandler)
-    ui.add_element(do_something_else_button)
-
     def ReloadButtonClickHandler():
         ui.clear_elements()
         ui.clear_groups()
         ui.parse_xml('ui.xml')
 
-        ui.add_element(do_something_button)
-        ui.add_element(do_something_else_button)
         ui.add_element(reload_button)
 
     reload_button = UI.Button('main:button/reload', 0, 570, 90, 30, text='Reload', click_handler=ReloadButtonClickHandler)

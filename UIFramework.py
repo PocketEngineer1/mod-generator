@@ -329,10 +329,6 @@ class UI:
         
         for group_dict in doc['Window']['Group']:
             group = ElementGroup(group_dict['@name'])
-            if group_dict['@enabled']:
-                group.enable()
-            else:
-                group.disable()
             self.add_group(group)
 
             for element in group_dict:
@@ -419,6 +415,12 @@ class UI:
                                 self.add_element(element_obj)
                             elif element == 'RadioButton':
                                 Log('Radio Button outside of radio button group', 'ERROR')
+        
+            if group_dict['@enabled'].lower() == 'true':
+                group.enable()
+            elif group_dict['@enabled'].lower() == 'false':
+                group.disable()
+
 
     def run(self):
         running = True

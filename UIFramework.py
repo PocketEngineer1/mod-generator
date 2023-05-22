@@ -1,15 +1,46 @@
 import pygame
 
+from functions import *
+
 pygame.init()
 pygame.font.init()
 
 class Element:
-    def __init__(self, x, y, width, height):
+    def __init__(self, name, x, y, width, height, group, enabled=True):
         self.rect = pygame.Rect(x, y, width, height)
+        self.enabled = enabled
+        self.name = name
+        
+        if group is not None:
+            group.add_element(self)
+
+class ElementGroup:
+    def __init__(self):
+        self.elements = []
+        self.enabled = True
+
+    def add_element(self, element):
+        self.elements.append(element)
+
+    def disable(self):
+        for element in self.elements:
+            element.enabled = False
+        self.enabled = False
+
+    def enable(self):
+        for element in self.elements:
+            element.enabled = True
+        self.enabled = True
+    
+    def get_element_by_name(self, name):
+        for i in self.elements:
+            if i.name == name:
+                return i
+        Log('Invalid element name', 'ERROR')
 
 class TextInput(Element):
-    def __init__(self, x, y, width, height, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
-        super().__init__(x, y, width, height)
+    def __init__(self, name, x, y, width, height, group=None, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
+        super().__init__(name, x, y, width, height, group)
         self.text = ''
         self.font = pygame.font.Font(font, font_size)
         self.placeholder = placeholder
@@ -57,14 +88,17 @@ class TextInput(Element):
 
 #region RadioButton
 class RadioButton(Element):
-    def __init__(self, x, y, size=20, color=(0, 0, 0), selected=False, group=None, click_handler=None, label='', font=None, font_size=20):
-        super().__init__(x, y, size, size)
+    def __init__(self, name, x, y, size=20, color=(0, 0, 0), selected=False, button_group=None, group=None, click_handler=None, label='', font=None, font_size=20):
+        super().__init__(name, x, y, size, size, group)
         self.color = color
         self.selected = selected
-        self.group = group
+        self.button_group = button_group
         self.click_handler = click_handler
         self.label = label
         self.font = pygame.font.Font(font, font_size)
+        
+        if button_group is not None:
+            button_group.add_button(self)
 
     def draw(self, surface):
         # Draw the button outline
@@ -82,8 +116,8 @@ class RadioButton(Element):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
                 self.selected = True
-                if self.group is not None:
-                    self.group.deselect_other_buttons(self)
+                if self.button_group is not None:
+                    self.button_group.deselect_other_buttons(self)
                 if self.click_handler is not None:
                     self.click_handler()
 
@@ -104,8 +138,8 @@ class RadioButtonGroup:
 #endregion
 
 class Checkbox(Element):
-    def __init__(self, x, y, size=20, label='', font_size=20, checked=False, color=(0, 0, 0), check_color=(0, 0, 0), font=None, group=None):
-        super().__init__(x, y, size, size)
+    def __init__(self, name, x, y, size=20, label='', font_size=20, checked=False, color=(0, 0, 0), check_color=(0, 0, 0), font=None, group=None):
+        super().__init__(name, x, y, size, size, group)
         self.label = label
         self.font = pygame.font.Font(font, font_size)
         self.checked = checked
@@ -132,8 +166,8 @@ class Checkbox(Element):
         return self.checked
 
 class Rectangle(Element):
-    def __init__(self, x, y, width, height, color):
-        super().__init__(x, y, width, height)
+    def __init__(self, name, x, y, width, height, color, group=None):
+        super().__init__(name, x, y, width, height, group)
         self.color = color
 
     def draw(self, surface):
@@ -142,9 +176,25 @@ class Rectangle(Element):
     def handle_event(self, event):
         pass
 
+class Image(Element):
+    def __init__(self, name, x, y, image_path, group=None, scale=None):
+        self.image = pygame.image.load(image_path)
+        super().__init__(name, x, y, self.image.get_width(), self.image.get_height(), group)
+        self.image_path = image_path
+        self.scale = scale
+
+    def draw(self, surface):
+        if self.scale is not None:
+            self.image = pygame.transform.scale(self.image, (self.scale, self.scale))
+
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+
+    def handle_event(self, event):
+        pass
+
 class Circle(Element):
-    def __init__(self, x, y, radius, color):
-        super().__init__(x, y, radius * 2, radius * 2)
+    def __init__(self, name, x, y, radius, color, group=None):
+        super().__init__(name, x, y, radius * 2, radius * 2, group)
         self.color = color
         self.radius = radius
 
@@ -155,8 +205,8 @@ class Circle(Element):
         pass
 
 class Ellipse(Element):
-    def __init__(self, x, y, width, height, color=(0, 0, 0)):
-        super().__init__(x, y, width, height)
+    def __init__(self, name, x, y, width, height, color=(0, 0, 0), group=None):
+        super().__init__(name, x, y, width, height, group)
         self.color = color
 
     def draw(self, surface):
@@ -166,8 +216,8 @@ class Ellipse(Element):
         pass
 
 class Line(Element):
-    def __init__(self, start, end, color=(0, 0, 0), thickness=1):
-        super().__init__(start[0], start[1], abs(start[0] - start[1]), abs(end[0] - end[1]))
+    def __init__(self, name, start, end, color=(0, 0, 0), thickness=1, group=None):
+        super().__init__(name, start[0], start[1], abs(start[0] - start[1]), abs(end[0] - end[1]), group)
         self.color = color
         self.start = start
         self.end = end
@@ -180,8 +230,8 @@ class Line(Element):
         pass
 
 class Button(Element):
-    def __init__(self, x, y, width, height, color=(255, 255, 0), text='', text_color=(255, 0, 0), font_size=20, click_handler=None, disabled=False, font=None):
-        super().__init__(x, y, width, height)
+    def __init__(self, name, x, y, width, height, group=None, color=(255, 255, 0), text='', text_color=(255, 0, 0), font_size=20, click_handler=None, disabled=False, font=None):
+        super().__init__(name, x, y, width, height, group)
         self.color = color
         self.text_color = text_color
         self.text = text
@@ -204,8 +254,8 @@ class Button(Element):
                         self.click_handler()
 
 class Text(Element):
-    def __init__(self, x, y, text, font_size=20, color=(0, 0, 0), font=None):
-        super().__init__(x, y, font_size, len([*text]) * font_size)  # Call the __init__ method of the Element class
+    def __init__(self, name, x, y, text, font_size=20, color=(0, 0, 0), font=None, group=None):
+        super().__init__(name, x, y, font_size, len([*text]) * font_size, group)  # Call the __init__ method of the Element class
         self.text = text
         self.color = color
         self.font = pygame.font.Font(font, font_size)
@@ -236,11 +286,13 @@ class UI:
                 if event.type == pygame.QUIT:
                     running = False
                 for element in self.elements:
-                    element.handle_event(event)
+                    if element.enabled:
+                        element.handle_event(event)
  
             self.screen.fill(self.background_color)
             for element in self.elements:
-                element.draw(self.screen)
+                if element.enabled:
+                    element.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
 
@@ -249,3 +301,9 @@ class UI:
 
     def clear_elements(self):
         self.elements = []
+    
+    def get_element_by_name(self, name):
+        for i in self.elements:
+            if i.name == name:
+                return i
+        Log('Invalid element name', 'ERROR')

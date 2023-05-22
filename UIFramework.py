@@ -1,4 +1,5 @@
-import pygame
+import pygame, xmltodict
+from ast import literal_eval as make_tuple
 
 from functions import *
 
@@ -144,8 +145,9 @@ class RadioButton(Element):
         self.selected = False
 
 class RadioButtonGroup:
-    def __init__(self):
+    def __init__(self, name):
         self.buttons = []
+        self.name = name
 
     def add_button(self, button):
         self.buttons.append(button)
@@ -298,6 +300,41 @@ class UI:
         self.clock = pygame.time.Clock()
         self.elements = []
         self.groups = []
+
+    def parse_xml(self, path):
+        with open(path, 'r', encoding='utf-8') as f:
+            xml_doc = f.read()
+        doc = xmltodict.parse(xml_doc)
+        
+        for group_dict in doc['Window']['Group']:
+            group = ElementGroup(group_dict['@name'])
+            self.add_group(group)
+
+            for element in group_dict:
+                if not element.startswith('@'):
+                    if group_dict[element]['@name'] == '':
+                        Log('Element with empty name', 'WARN')
+                    
+                    if element == 'Text':
+                        element_dict = group_dict[element]
+                        element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], group=group)
+                        self.add_element(element_obj)
+                    elif element == 'Rectangle':
+                        element_dict = group_dict[element]
+                        element_obj = Rectangle(group.name + ':Rectangle/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), make_tuple(element_dict['@color']), group=group)
+                        self.add_element(element_obj)
+                    elif element == 'Circle':
+                        element_dict = group_dict[element]
+                        element_obj = Circle(group.name + ':Circle/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@radius']), make_tuple(element_dict['@color']), group=group)
+                        self.add_element(element_obj)
+                    elif element == 'Ellipse':
+                        element_dict = group_dict[element]
+                        element_obj = Ellipse(group.name + ':Ellipse/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), make_tuple(element_dict['@color']), group=group)
+                        self.add_element(element_obj)
+                    elif element == 'Line':
+                        element_dict = group_dict[element]
+                        element_obj = Line(group.name + ':Line/' + element_dict['@name'], make_tuple(element_dict['@start']), make_tuple(element_dict['@end']), make_tuple(element_dict['@color']), thickness=int(element_dict['@thickness']), group=group)
+                        self.add_element(element_obj)
 
     def run(self):
         running = True

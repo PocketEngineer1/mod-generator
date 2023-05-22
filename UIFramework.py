@@ -297,7 +297,7 @@ class Button(Element):
 
 class Text(Element):
     def __init__(self, name, x, y, text, font_size=20, color=(0, 0, 0), font=None, group=None):
-        super().__init__(name, x, y, font_size, len([*text]) * font_size, group)  # Call the __init__ method of the Element class
+        super().__init__(name, x, y, font_size, len([*text]) * font_size, group)
         self.text = text
         self.color = color
         self.font = pygame.font.Font(font, font_size)
@@ -305,7 +305,7 @@ class Text(Element):
 
     def draw(self, surface):
         text_surface = self.font.render(self.text, True, self.color)
-        surface.blit(text_surface, (self.rect.x, self.rect.x))
+        surface.blit(text_surface, (self.rect.x, self.rect.y))
 
     def handle_event(self, event):
         pass
@@ -339,7 +339,11 @@ class UI:
 
                     if element == 'Text':
                         element_dict = group_dict[element]
-                        element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group)
+                        if '@font_size' in element_dict:
+                            font_size = int(element_dict['@font_size'])
+                        else:
+                            font_size = 20
+                        element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group, font_size=font_size)
                         self.add_element(element_obj)
                     elif element == 'Rectangle':
                         element_dict = group_dict[element]
@@ -387,7 +391,11 @@ class UI:
                                 Log('Element with empty name', 'WARN')
 
                             if element == 'Text':
-                                element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group)
+                                if '@font_size' in element_dict:
+                                    font_size = int(element_dict['@font_size'])
+                                else:
+                                    font_size = 20
+                                element_obj = Text(group.name + ':Text/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), element_dict['@text'], color=make_tuple(element_dict['@color']), group=group, font_size=font_size)
                                 self.add_element(element_obj)
                             elif element == 'Rectangle':
                                 element_obj = Rectangle(group.name + ':Rectangle/' + element_dict['@name'], int(element_dict['@x']), int(element_dict['@y']), int(element_dict['@width']), int(element_dict['@height']), make_tuple(element_dict['@color']), group=group)

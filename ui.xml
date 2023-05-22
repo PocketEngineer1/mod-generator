@@ -12,28 +12,7 @@
         <Image name="peanut_butter" x="430" y="250" scale="180" path="assets/textures/items/peanut_butter_1.png" />
     </Group>
     <Group name="main" enabled="True">
-        <Image name="bg_0_0" x="0" y="0" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_0_1" x="180" y="0" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_0_2" x="360" y="0" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_0_3" x="540" y="0" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_0_4" x="720" y="0" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        
-        <Image name="bg_1_0" x="0" y="180" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_1_1" x="180" y="180" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_1_2" x="360" y="180" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_1_3" x="540" y="180" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_1_4" x="720" y="180" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        
-        <Image name="bg_2_0" x="0" y="360" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_2_1" x="180" y="360" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_2_2" x="360" y="360" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_2_3" x="540" y="360" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_2_4" x="720" y="360" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        
-        <Image name="bg_3_0" x="0" y="540" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_3_1" x="180" y="540" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_3_2" x="360" y="540" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_3_3" x="540" y="540" scale="180" path="assets/textures/blocks/cobble_1.png" />
-        <Image name="bg_3_4" x="720" y="540" scale="180" path="assets/textures/blocks/cobble_1.png" />
+        <Text name="Title" x="40" y="10" text="Not Mark's Mod Generator" color="0,0,0" font_size="80" />
+        <Line name="0" start="2,70" end="798,70" color="0,0,0" thickness="2" />
     </Group>
 </Window>

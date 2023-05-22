@@ -8,9 +8,6 @@ def GUI():
     ui.parse_xml('ui.xml')
 
     main_group = UI.ElementGroup('main')
-    
-    image = UI.Image('main:image/', 150, 250, 'assets/textures/blocks/cobble_1.png', scale=180, group=main_group)
-    image_peanut_butter = UI.Image('main:image/peanut_butter', 430, 250, 'assets/textures/items/peanut_butter_1.png', scale=180, group=main_group)
 
     #region RadioButton
     radio_buttons = UI.RadioButtonGroup('ButtonGroup')
@@ -27,7 +24,7 @@ def GUI():
 
         ui.add_element(reload_button)
 
-    reload_button = UI.Button('main:button/reload', 0, 570, 90, 30, text='Reload', click_handler=ReloadButtonClickHandler)
+    reload_button = UI.Button('main:button/reload', 0, 570, 90, 30, text='Reload', click_handler=ReloadButtonClickHandler, color=(200,200,200), text_color=(0,0,0))
     ui.add_element(reload_button)
 
     ui.run()

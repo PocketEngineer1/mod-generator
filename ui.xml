@@ -13,6 +13,8 @@
     </Group>
     <Group name="main" enabled="True">
         <Text name="Title" x="40" y="10" text="Not Mark's Mod Generator" color="0,0,0" font_size="80" />
-        <Line name="0" start="2,70" end="798,70" color="0,0,0" thickness="2" />
+        <Line name="0" start="0,70" end="800,70" color="0,0,0" thickness="2" />
+        <Button name="generate_minetest_mod" x="0" y="80" width="800" height="30" text="Generate Minetest mod" color="200,200,200" text_color="0,0,0" />
+        <Button name="generate_minecraft_fabric_1_19_3_mod" x="0" y="120" width="800" height="30" text="Generate Minecraft Fabric 1.19.3 mod" color="200,200,200" text_color="0,0,0" />
     </Group>
 </Window>

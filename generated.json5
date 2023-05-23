@@ -1,0 +1,69 @@
+{
+    mod: {
+        name: 'Example Mod',
+        id: 'example_mod',
+        desc: 'Describe your mod',
+        author: 'Me!',
+
+        java_package: [
+            'example',
+            'mod',
+        ],
+    },
+    
+    item_definitions: {
+        Minetest: {
+        },
+
+        'Minecraft Fabric 1.19.3': {
+        }
+    },
+
+    recipes: {
+        shaped: [
+            {
+                output: '!mod.example_block',
+                amount: 1,
+                recipe: [
+                    ['!mod.example_item', '!mod.example_item', '!mod.example_item'],
+                    ['!mod.example_item', '!mod.example_item', '!mod.example_item'],
+                    ['!mod.example_item', '!mod.example_item', '!mod.example_item']
+                ]
+            },
+        ],
+
+        shapeless: [
+        ],
+
+        smelting: [
+            {
+                output: '!mod.example_food',
+                input: '!mod.example_item',
+                amount: 1,
+            },
+        ],
+    },
+
+    elements: {
+        items: [
+            {
+                id: 'example_item',
+                name: 'Example Item',
+            },
+        ],
+
+        blocks: [
+            {
+                id: 'example_block',
+                name: 'Example Block',
+            },
+        ],
+
+        food: [
+            {
+                id: 'example_food',
+                name: 'Example Food',
+            },
+        ],
+    },
+}

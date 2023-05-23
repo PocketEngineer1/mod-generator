@@ -87,6 +87,12 @@ def Generate(mod, args):
 
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/textures/block')
+
+        if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block') != True:
+            os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block')
+
+        if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item') != True:
+            os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item')
         #endregion
 
         #region data
@@ -189,7 +195,7 @@ def Generate(mod, args):
     del Task
     #endregion
     
-    #region Blocks.java
+    #region Blocks
     def Task():
         global fabric_mod_json
         global lang
@@ -198,6 +204,39 @@ def Generate(mod, args):
 
         if len(mod['elements']['blocks']) > 0:
             for i in mod['elements']['blocks']:
+                with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/item/block.json', 'r') as f:
+                    file = f.read()
+                    f.close()
+
+                file = file.replace('!block.id', i['id'])
+                file = file.replace('!mod.id', mod['mod']['id'])
+
+                with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item/' + i['id'] + '.json', 'w') as f:
+                    f.write(file)
+                    f.close()
+                
+                with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/blockstates/block.json', 'r') as f:
+                    file = f.read()
+                    f.close()
+
+                file = file.replace('!block.id', i['id'])
+                file = file.replace('!mod.id', mod['mod']['id'])
+
+                with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/blockstates/' + i['id'] + '.json', 'w') as f:
+                    f.write(file)
+                    f.close()
+                
+                with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/block.json', 'r') as f:
+                    file = f.read()
+                    f.close()
+
+                file = file.replace('!block.id', i['id'])
+                file = file.replace('!mod.id', mod['mod']['id'])
+
+                with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block/' + i['id'] + '.json', 'w') as f:
+                    f.write(file)
+                    f.close()
+
                 with open('templates/Minecraft Fabric 1.19.3/src/main/java/package/Blocks.java', 'r') as f:
                     file = f.read()
                     f.close()
@@ -210,8 +249,8 @@ def Generate(mod, args):
                     f.write(file)
                     f.close()
                 
-                blocks += ',\n  "' + java_pkg + '.Blocks.' + i['id'] + '"'
-                blocks_lang += ',\n  "' + mod['mod']['id'] + ':' + i['id'] + '":"' + i['name'] + '"'
+                blocks += ',\n			"' + java_pkg + '.Blocks.' + i['id'] + '"'
+                blocks_lang += ',\n  "block.' + mod['mod']['id'] + '.' + i['id'] + '":"' + i['name'] + '"'
 
         blocks = blocks.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!blocks', blocks)
@@ -221,7 +260,7 @@ def Generate(mod, args):
     del Task
     #endregion
     
-    #region Items.java
+    #region Items
     def Task():
         global fabric_mod_json
         global lang
@@ -230,6 +269,17 @@ def Generate(mod, args):
 
         if len(mod['elements']['items']) > 0:
             for i in mod['elements']['items']:
+                with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/item/item.json', 'r') as f:
+                    file = f.read()
+                    f.close()
+
+                file = file.replace('!item.id', i['id'])
+                file = file.replace('!mod.id', mod['mod']['id'])
+
+                with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item/' + i['id'] + '.json', 'w') as f:
+                    f.write(file)
+                    f.close()
+
                 with open('templates/Minecraft Fabric 1.19.3/src/main/java/package/Items.java', 'r') as f:
                     file = f.read()
                     f.close()
@@ -243,7 +293,7 @@ def Generate(mod, args):
                     f.close()
                 
                 items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '"'
-                items_lang += ',\n  "' + mod['mod']['id'] + ':' + i['id'] + '":"' + i['name'] + '"'
+                items_lang += ',\n  "item.' + mod['mod']['id'] + '.' + i['id'] + '":"' + i['name'] + '"'
 
         items = items.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!items', items)

@@ -1,5 +1,5 @@
 {
    "variants": {
-    "": { "model": "not-marks-stuff:block/modeling_bench" }
+    "": { "model": "!mod.id:block/!block.id" }
   }
 }

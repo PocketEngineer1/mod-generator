@@ -112,7 +112,7 @@ def Main():
 
     if args.gui:
         from gui import GUI
-        ui_thread = threading.Thread(target=GUI, args=[modData,args])
+        ui_thread = threading.Thread(target=GUI, args=[args])
         ui_thread.start()
         ui_thread.join()
     else:

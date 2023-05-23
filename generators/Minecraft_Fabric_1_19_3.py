@@ -242,7 +242,7 @@ def Generate(mod, args):
                     f.write(file)
                     f.close()
                 
-                items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '":"' + i['name'] + '"'
+                items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '"'
                 items_lang += ',\n  "' + mod['mod']['id'] + ':' + i['id'] + '":"' + i['name'] + '"'
 
         items = items.rstrip()

@@ -16,6 +16,7 @@
     item_definitions: {
         Minetest: {
             clay: 'default:clay_lump',
+            clay_block: 'default:clay',
 
             // Dyes
             white_dye: 'dye:white',
@@ -38,6 +39,7 @@
 
         'Minecraft Fabric 1.19.3': {
             clay: '',
+            clay_block: '',
 
             // Dyes
             white_dye: '',
@@ -61,6 +63,15 @@
 
     recipes: {
         shaped: [
+            {
+                output: '!mod.cobble_1',
+                amount: 1,
+                recipe: [
+                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.yellow_dye', '!item_definitions.clay_block', '!item_definitions.yellow_dye'],
+                    ['!item_definitions.yellow_dye', '!item_definitions.yellow_dye', '!item_definitions.yellow_dye']
+                ]
+            },
             {
                 output: '!mod.tomato_1',
                 amount: 1,

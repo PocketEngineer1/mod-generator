@@ -61,9 +61,7 @@ def Main():
                 output: '!mod.example_item',
                 amount: 9,
                 recipe: [
-                    ['!mod.example_block', '', ''],
-                    ['', '', ''],
-                    ['', '', '']
+                    '!mod.example_block'
                 ]
             },
         ],

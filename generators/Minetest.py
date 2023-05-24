@@ -531,8 +531,355 @@ def Generate(mod, args):
     
         #region shapeless
         def SubTask():
-            if len(mod['recipes']['shapeless']) > 0:
-                Log('Shapeless recipes not implemented', 'WARN')
+            with open('output/Minetest/crafting/shapeless.lua', 'w') as f:
+                f.write('')
+                f.close()
+
+            with open('templates/Minetest/crafting/shapeless.lua', 'r') as f:
+                template = f.read()
+                f.close()
+
+            with open('output/Minetest/crafting/shapeless.lua', 'a') as f:
+                if len(mod['recipes']['shapeless']) > 0:
+                    for i in mod['recipes']['shapeless']:
+                        out = template
+                        out = out.replace('!recipe.amount', str(i['amount']))
+
+                        write = False
+
+                        #region output
+                        outputItem = i['output']
+                        outputItem = str(outputItem)
+
+                        if outputItem.startswith('!mod.'):
+                            outputItem = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem == j['id']:
+                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
+                                    write = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem == j['id']:
+                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
+                                    write = True
+                                    break
+                            for j in mod['elements']['food']:
+                                if outputItem == j['id']:
+                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
+                                    write = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minetest']:
+                                if j == outputItem:
+                                    out = out.replace('!recipe.output', mod['item_definitions']['Minetest'][j])
+                                    write = True
+                                    break
+                        #endregion
+
+                        #region ingredients
+                        ingredients = []
+                        #region 1
+                        if len(i['recipe']) >= 1:
+                            outputItem = i['recipe'][0]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+
+                        #region 2
+                        if 1 in i['recipe']:
+                            outputItem = i['recipe'][1]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 3
+                        if 2 in i['recipe']:
+                            outputItem = i['recipe'][2]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 4
+                        if 3 in i['recipe']:
+                            outputItem = i['recipe'][3]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+
+                        #region 5
+                        if 4 in i['recipe']:
+                            outputItem = i['recipe'][4]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 6
+                        if 5 in i['recipe']:
+                            outputItem = i['recipe'][5]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 7
+                        if 6 in i['recipe']:
+                            outputItem = i['recipe'][7]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 8
+                        if 7 in i['recipe']:
+                            outputItem = i['recipe'][7]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                        #endregion
+                        
+                        #region 9
+                        if 8 in i['recipe']:
+                            outputItem = i['recipe'][8]
+                            outputItem = str(outputItem)
+
+                            if outputItem.startswith('!mod.'):
+                                outputItem = outputItem.split('!mod.', 1)[1]
+                                for j in mod['elements']['items']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['blocks']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                                for j in mod['elements']['food']:
+                                    if outputItem == j['id']:
+                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
+                                        write = True
+                                        break
+                            elif outputItem.startswith('!item_definitions.'):
+                                outputItem = outputItem.split('!item_definitions.', 1)[1]
+                                for j in mod['item_definitions']['Minetest']:
+                                    if j == outputItem:
+                                        ingredients.append(mod['item_definitions']['Minetest'][j])
+                                        write = True
+                                        break
+                            out = out.replace('!recipe.ingredient_9', '')
+                        #endregion
+                        
+                        toWrite = '\n		'
+                        for j in ingredients:
+                            toWrite += '"' + j + '", \n		'
+                        toWrite = toWrite.rstrip()
+                        out = out.replace('!recipe.ingredients', toWrite)
+                        #endregion
+
+                        out += '\n\n'
+                        if write:
+                            f.write(out)
+                else:
+                    f.write('-- No shapeless recipes to register')
+                f.close()
+            
+            with open('output/Minetest/crafting/shapeless.lua', 'r') as f:
+                file = f.read()
+                f.close()
+            
+            with open('output/Minetest/crafting/shapeless.lua', 'w') as f:
+                f.write(file.rstrip())
+                f.close()
 
         RunTask(SubTask, 'Create shapeless.lua', True)
         del SubTask

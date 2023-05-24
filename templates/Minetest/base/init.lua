@@ -6,4 +6,5 @@ dofile(path.."/craftitems.lua")
 dofile(path.."/food.lua")
 
 dofile(path.."/crafting/shaped.lua")
+dofile(path.."/crafting/shapeless.lua")
 dofile(path.."/crafting/smelting.lua")

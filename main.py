@@ -57,6 +57,15 @@ def Main():
         ],
 
         shapeless: [
+            {
+                output: '!mod.example_item',
+                amount: 9,
+                recipe: [
+                    ['!mod.example_block', '', ''],
+                    ['', '', ''],
+                    ['', '', '']
+                ]
+            },
         ],
 
         smelting: [

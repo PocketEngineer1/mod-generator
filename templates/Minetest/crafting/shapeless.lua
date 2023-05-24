@@ -1,5 +1,6 @@
-register_craft( {
+minetest.register_craft({
 	type = "shapeless",
 	output = "!recipe.output !recipe.amount",
-	recipe = {"Clueless here"},
+	recipe = {!recipe.ingredients
+	}
 })

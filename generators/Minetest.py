@@ -143,6 +143,47 @@ def Generate(mod, args):
     del Task
     #endregion
 
+    #region glass.lua
+    def Task():
+        with open('templates/Minetest/glass.lua/head.lua', 'r') as f:
+            file = f.read()
+            f.close()
+
+        file = file.replace('!mod.id', mod['mod']['id'])
+        file += "\n\n"
+
+        with open('output/Minetest/glass.lua', 'w') as f:
+            f.write(file)
+            f.close()
+        
+        with open('templates/Minetest/glass.lua/body.lua', 'r') as f:
+            template = f.read()
+            f.close()
+
+        with open('output/Minetest/glass.lua', 'a') as f:
+            if len(mod['elements']['glass']) > 0:
+                for i in mod['elements']['glass']:
+                    out = template
+                    out = out.replace('!glass.id', i['id'])
+                    out = out.replace('!glass.name', i['name'])
+                    out += "\n\n"
+                    f.write(out)
+            else:
+                f.write('-- No glass like blocks to register')
+            f.close()
+        
+        with open('output/Minetest/glass.lua', 'r') as f:
+            file = f.read()
+            f.close()
+        
+        with open('output/Minetest/glass.lua', 'w') as f:
+            f.write(file.rstrip())
+            f.close()
+    
+    RunTask(Task, 'Create glass.lua')
+    del Task
+    #endregion
+
     #region food.lua
     def Task():
         with open('templates/Minetest/food.lua/head.lua', 'r') as f:

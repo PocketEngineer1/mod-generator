@@ -346,13 +346,6 @@
             },
         ],
 
-        blocks: [
-            {
-                id: 'cobble_1',
-                name: 'Cobble',
-            },
-        ],
-
         food: [
             {
                 id: 'tomato_1',
@@ -382,6 +375,57 @@
                 id: 'peanut_butter_1',
                 name: 'Peanut Butter',
             },
-        ]
+        ],
+
+        blocks: [
+            {
+                id: 'cobble_1',
+                name: 'Cobble',
+            },
+
+            // Proto7
+            {
+                id: 'proto7_stone',
+                name: 'Proto7 Stone',
+            },
+            {
+                id: 'proto7_sand',
+                name: 'Proto7 Sand',
+            },
+            {
+                id: 'proto7_bedrock',
+                name: 'Proto7 Bedrock',
+            },
+            {
+                id: 'proto7_dirt',
+                name: 'Proto7 Dirt',
+            },
+            {
+                id: 'proto7_planks',
+                name: 'Proto7 Planks',
+            },
+        ],
+
+        // pillars: [
+        //     // Proto7
+
+        //     {
+        //         id: 'proto7_wood_1',
+        //         name: 'Proto7 Wood',
+        //         different_top: true,
+        //         rotatable: false,
+        //     },
+        // ],
+
+        glass: [
+            {
+                id: 'proto7_glass',
+                name: 'Proto7 Glass',
+            },
+            {
+                id: 'proto7_leaves',
+                name: 'Proto7 Leaves',
+            },
+        ],
     },
 }

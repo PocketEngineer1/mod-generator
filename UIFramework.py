@@ -7,9 +7,9 @@ pygame.init()
 pygame.font.init()
 
 class Element:
-    def __init__(self, name, x, y, width, height, group, enabled=True):
+    def __init__(self, name, x, y, width, height, group, active=True):
         self.rect = pygame.Rect(x, y, width, height)
-        self.enabled = enabled
+        self.active = active
         self.name = name
         
         if group is not None:
@@ -23,7 +23,7 @@ class ElementGroup:
     def __init__(self, name):
         self.elements = []
         self.radio_button_groups = []
-        self.enabled = True
+        self.active = True
         self.name = name
 
     def add_element(self, element):
@@ -31,13 +31,13 @@ class ElementGroup:
 
     def disable(self):
         for element in self.elements:
-            element.enabled = False
-        self.enabled = False
+            element.active = False
+        self.active = False
 
     def enable(self):
         for element in self.elements:
-            element.enabled = True
-        self.enabled = True
+            element.active = True
+        self.active = True
 
     def add_element(self, element):
         self.elements.append(element)
@@ -58,26 +58,6 @@ class ElementGroup:
             if i.name == name:
                 del self.elements[i]
         Log('Invalid element name', 'ERROR')
-    
-    def add_radio_button_group(self, radio_button_group):
-        self.radio_button_groups.append(radio_button_group)
-
-    def clear_radio_button_groups(self):
-        self.radio_button_groups = []
-    
-    def get_radio_button_group_by_name(self, name):
-        for i in self.radio_button_groups:
-            if i.name == name:
-                return i
-        Log('Invalid radio_button_group name', 'ERROR')
-    
-    def delete_radio_button_group_by_name(self, name):
-        j = 0
-        for i in self.radio_button_groups:
-            j += 1
-            if i.name == name:
-                del self.radio_button_groups[i]
-        Log('Invalid radio button group name', 'ERROR')
 
 class TextInput(Element):
     def __init__(self, name, x, y, width, height, group=None, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
@@ -166,9 +146,8 @@ class RadioButton(Element):
         self.selected = False
 
 class RadioButtonGroup:
-    def __init__(self, name):
+    def __init__(self):
         self.buttons = []
-        self.name = name
 
     def add_button(self, button):
         self.buttons.append(button)
@@ -272,28 +251,35 @@ class Line(Element):
         pass
 
 class Button(Element):
-    def __init__(self, name, x, y, width, height, group=None, color=(200, 200, 200), text='', text_color=(0, 0, 0), font_size=20, click_handler=None, disabled=False, font=None):
+    def __init__(self, name, x, y, width, height, group=None, color=(200, 200, 200), text='', disabled_text_color=(128, 128, 128), text_color=(0, 0, 0), font_size=20, click_handler=None, enabled=True, font=None):
         super().__init__(name, x, y, width, height, group)
         self.color = color
         self.text_color = text_color
+        self.disabled_text_color = disabled_text_color
         self.text = text
         self.font = pygame.font.Font(font, font_size)
         self.click_handler = click_handler
-        self.disabled = disabled
+        self.enabled = enabled
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect)
         if self.text != '':
-            text_surface = self.font.render(self.text, True, self.text_color)
+            if self.enabled:
+                text_surface = self.font.render(self.text, True, self.text_color)
+            else:
+                text_surface = self.font.render(self.text, True, self.disabled_text_color)
             text_rect = text_surface.get_rect(center=self.rect.center)
             surface.blit(text_surface, text_rect)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if not self.disabled:
+            if self.enabled:
                 if self.rect.collidepoint(event.pos) and event.button == 1:
                     if self.click_handler is not None:
                         self.click_handler()
+    
+    def set_enabled(self, enabled):
+        self.enabled = enabled
 
 class Text(Element):
     def __init__(self, name, x, y, text, font_size=20, color=(0, 0, 0), font=None, group=None):
@@ -329,12 +315,12 @@ class UI:
                 if event.type == pygame.QUIT:
                     running = False
                 for element in self.elements:
-                    if element.enabled:
+                    if element.active:
                         element.handle_event(event)
  
             self.screen.fill(self.background_color)
             for element in self.elements:
-                if element.enabled:
+                if element.active:
                     element.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)

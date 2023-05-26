@@ -1,4 +1,4 @@
-import json5
+import json5, os, sys, shutil, subprocess
 
 from functions import *
 import UIFramework as UI
@@ -64,6 +64,41 @@ def GUI(args):
 
         with open(modDef, 'r') as f:
             modData = json5.load(f)
+
+        if args.mod == None:
+            runDef = './run.json5'
+        else:
+            runDef = args.run_def
+
+        with open(runDef, 'r') as f:
+            runDef = json5.load(f)
+        
+        if test_minetest_mod.selected:
+            Log('Started task \'Create Minetest mod\'', 'INFO')
+            generators.Minetest.Generate(modData, args)
+            Log('Completed task \'Create Minetest mod\'', 'INFO')
+
+            Log('Started task \'Start Minetest mod\' testing', 'INFO')
+            if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
+                shutil.rmtree(runDef['Minetest']['Were to copy generated source to'])
+            shutil.copytree('output/Minetest', runDef['Minetest']['Were to copy generated source to'])
+            subprocess.Popen(runDef['Minetest']['What command to execute to test the mod'], shell=True)
+            Log('Completed task \'Start Minetest mod\' testing', 'INFO')
+
+        elif test_minecraft_fabric_1_19_3_mod.selected:
+            Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
+            Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+
+            Log('Started task \'Start Minecraft Fabric 1.19.3 mod testing\'', 'INFO')
+            if os.path.exists(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to']):
+                shutil.rmtree(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to'])
+            shutil.copytree('output/Minecraft Fabric 1.19.3/src', runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to'])
+            subprocess.Popen(runDef['Minecraft Fabric 1.19.3']['What command to execute to test the mod'], shell=True)
+            Log('Completed task \'Start Minecraft Fabric 1.19.3 mod\' testing', 'INFO')
+        else:
+            Log('Please select a game!', 'ERROR')
+
     #endregion
 
     radio_button_group = UI.RadioButtonGroup()

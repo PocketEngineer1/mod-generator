@@ -1,4 +1,4 @@
-import os, json5, argparse, sys, threading
+import os, json5, argparse, sys, threading, shutil, subprocess
 
 import generators.Minetest, generators.Minecraft_Fabric_1_19_3
 from functions import *
@@ -8,9 +8,9 @@ parser = argparse.ArgumentParser(prog='ModGenerator', description='What the prog
 parser.add_argument('-g', '--game', help='Specify the game to generate a mod for')
 parser.add_argument('-r', '--run', action='store_true', help='Specify wether to run the game client')
 parser.add_argument('-m', '--mod', help='Specify the path to the mod definition JSON5 file')
+parser.add_argument('--run-def', help='Specify the path to the run definition JSON5 file')
 parser.add_argument('--gui', action='store_true', help='Start with the GUI')
-parser.add_argument('--game-list', action='store_true', help='Lists the available games')
-parser.add_argument('--run-command', help='Specify the command used to run the game client')
+# parser.add_argument('--game-list', action='store_true', help='Lists the available games')
 parser.add_argument('--create-modDef', action='store_true', help='Creates a mod definition file')
 args = parser.parse_args()
 #endregion
@@ -98,6 +98,34 @@ def Main():
     },
 }''')
             f.close()
+        sys.exit()
+    #endregion
+
+    #region args.run
+    if args.run:
+        if args.mod == None:
+            runDef = './run.json5'
+        else:
+            runDef = args.run_def
+
+        with open(runDef, 'r') as f:
+            runDef = json5.load(f)
+        
+        if args.game == None:
+            sys.exit('Please specify a game to run')
+        elif args.game == 'Minetest':
+            if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
+                shutil.rmtree(runDef['Minetest']['Were to copy generated source to'])
+            shutil.copytree('output/Minetest', runDef['Minetest']['Were to copy generated source to'])
+            subprocess.Popen(runDef['Minetest']['What command to execute to test the mod'], shell=True)
+        elif args.game == 'Minecraft Fabric 1.19.3':
+            if os.path.exists(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to']):
+                shutil.rmtree(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to'])
+            shutil.copytree('output/Minecraft Fabric 1.19.3/src', runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to'])
+            subprocess.Popen(runDef['Minecraft Fabric 1.19.3']['What command to execute to test the mod'], shell=True)
+        else:
+            sys.exit('Unknown game')
+
         sys.exit()
     #endregion
 

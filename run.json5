@@ -1,0 +1,11 @@
+{
+    Minetest: {
+        'Were to copy generated source to': '/path/to/destination',
+        'What command to execute to test the mod': 'echo "the command to use"'
+    },
+
+    'Minecraft Fabric 1.19.3': {
+        'Were to copy generated source to': '/path/to/destination',
+        'What command to execute to test the mod': 'echo "the command to use"'
+    },
+}

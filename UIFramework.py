@@ -58,6 +58,14 @@ class ElementGroup:
             if i.name == name:
                 del self.elements[i]
         Log('Invalid element name', 'ERROR')
+    
+    def draw_elements(self, surface):
+        for i in self.elements:
+            i.draw(surface)
+
+    def heandle_events(self, event):
+        for i in self.elements:
+            i.handle_event(event)
 
 class TextInput(Element):
     def __init__(self, name, x, y, width, height, group=None, font_size=20, placeholder='', on_change=None, placeholder_color=(128, 128, 128), text_color=(0, 0, 0), active_color=(0, 0, 255), inactive_color=(128, 128, 128), font=None):
@@ -295,9 +303,68 @@ class Text(Element):
 
     def handle_event(self, event):
         pass
+
+#region Tabs
+class Tab(Element):
+    def __init__(self, name, x, y, width, height, tab_group, group, global_group=None, color=(200, 200, 200), text='', disabled_text_color=(128, 128, 128), text_color=(0, 0, 0), font_size=20, enabled=True, font=None):
+        super().__init__(name, x, y, width, height, global_group)
+        self.color = color
+        self.text_color = text_color
+        self.disabled_text_color = disabled_text_color
+        self.text = text
+        self.font = pygame.font.Font(font, font_size)
+        self.enabled = enabled
+        self.group = group
+        self.tab_group = tab_group
+        tab_group.add_tab(self)
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, self.rect)
+        if self.text != '':
+            if self.enabled:
+                text_surface = self.font.render(self.text, True, self.text_color)
+            else:
+                text_surface = self.font.render(self.text, True, self.disabled_text_color)
+            text_rect = text_surface.get_rect(center=self.rect.center)
+            surface.blit(text_surface, text_rect)
+
+    def click_handler(self):
+        self.tab_group.select_tab_handler(self)
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.enabled:
+                if self.rect.collidepoint(event.pos) and event.button == 1:
+                    self.click_handler()
     
+    def set_enabled(self, enabled):
+        self.enabled = enabled
+
+class TabGroup:
+    def __init__(self):
+        self.tabs = []
+        self.groups = []
+
+    def add_tab(self, tab):
+        self.tabs.append(tab)
+
+    def add_group(self, group):
+        self.groups.append(group)
+
+    def select_tab_handler(self, selected_tab):
+        selected_tab.set_enabled(False)
+        for tab in self.tabs:
+            if tab is not selected_tab:
+                tab.set_enabled(True)
+    
+        selected_tab.group.enable()
+        for group in self.groups:
+            if group is not selected_tab.group:
+                group.disable()
+#endregion
+
 class UI:
-    def __init__(self, width, height, title, background_color=(255, 255, 255)):
+    def __init__(self, width, height, title, handle_elements_outside_of_group=True, background_color=(255, 255, 255)):
         pygame.init()
         self.width = width
         self.height = height
@@ -307,6 +374,7 @@ class UI:
         self.clock = pygame.time.Clock()
         self.elements = []
         self.groups = []
+        self.handle_elements_outside_of_group = handle_elements_outside_of_group
 
     def run(self):
         running = True
@@ -314,14 +382,24 @@ class UI:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                for element in self.elements:
-                    if element.active:
-                        element.handle_event(event)
+                if self.handle_elements_outside_of_group:
+                    for element in self.elements:
+                        if element.active:
+                            element.handle_event(event)
+                else:
+                    for group in self.groups:
+                        if group.active:
+                            group.handle_event(event)
  
             self.screen.fill(self.background_color)
-            for element in self.elements:
-                if element.active:
-                    element.draw(self.screen)
+            if self.handle_elements_outside_of_group:
+                for element in self.elements:
+                    if element.active:
+                        element.draw(self.screen)
+            else:
+                for group in self.groups:
+                    if group.active:
+                        group.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
 

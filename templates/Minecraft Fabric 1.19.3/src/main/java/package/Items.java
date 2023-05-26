@@ -7,6 +7,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
+import !mod.java_pkg.MainItemGroup;
+
 public class !item.id implements ModInitializer {
     public static final Item THIS_ITEM = Registry.register(Registries.ITEM, new Identifier("!mod.id", "!item.id"), new Item(new FabricItemSettings()));
 

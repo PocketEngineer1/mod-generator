@@ -175,32 +175,17 @@ def Generate(mod, args):
     RunTask(Task, 'Create language files')
     del Task
     #endregion
-
-    #region MainItemGroup.java
-    def Task():
-        global fabric_mod_json
-        with open('templates/Minecraft Fabric 1.19.3/src/main/java/package/MainItemGroup.java', 'r') as f:
-            file = f.read()
-            f.close()
-
-        file = file.replace('!mod.id', mod['mod']['id'])
-        file = file.replace('!mod.java_pkg', java_pkg)
-        file += "\n\n"
-
-        with open('output/Minecraft Fabric 1.19.3/src/main/java/' + java_pkg_path + '/MainItemGroup.java', 'w') as f:
-            f.write(file)
-            f.close()
-    
-    RunTask(Task, 'Create MainItemGroup.java')
-    del Task
-    #endregion
     
     #region Blocks
     def Task():
+        global item_group_block_imports
+        global item_group_block_entries
         global fabric_mod_json
         global lang
         blocks = ''
         blocks_lang = ''
+        item_group_block_imports = ''
+        item_group_block_entries = ''
 
         if len(mod['elements']['blocks']) > 0:
             for i in mod['elements']['blocks']:
@@ -251,6 +236,8 @@ def Generate(mod, args):
                 
                 blocks += ',\n			"' + java_pkg + '.Blocks.' + i['id'] + '"'
                 blocks_lang += ',\n  "block.' + mod['mod']['id'] + '.' + i['id'] + '":"' + i['name'] + '"'
+                item_group_block_imports += '\nimport ' + java_pkg + '.Blocks.' + i['id'] + ';'
+                item_group_block_entries += '\n        entries.add(' + i['id'] + '.THIS_BLOCK);'
 
         blocks = blocks.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!blocks', blocks)
@@ -264,8 +251,12 @@ def Generate(mod, args):
     def Task():
         global fabric_mod_json
         global lang
+        global item_group_item_imports
+        global item_group_item_entries
         items = ''
         items_lang = ''
+        item_group_item_imports = ''
+        item_group_item_entries = ''
 
         if len(mod['elements']['items']) > 0:
             for i in mod['elements']['items']:
@@ -294,6 +285,8 @@ def Generate(mod, args):
                 
                 items += ',\n			"' + java_pkg + '.Items.' + i['id'] + '"'
                 items_lang += ',\n  "item.' + mod['mod']['id'] + '.' + i['id'] + '":"' + i['name'] + '"'
+                item_group_item_imports += '\nimport ' + java_pkg + '.Items.' + i['id'] + ';'
+                item_group_item_entries += '\n        entries.add(' + i['id'] + '.THIS_ITEM);'
 
         items = items.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!items', items)
@@ -301,6 +294,29 @@ def Generate(mod, args):
         lang = lang.replace('{,', '{')
     
     RunTask(Task, 'Create Items.java')
+    del Task
+    #endregion
+
+    #region MainItemGroup.java
+    def Task():
+        with open('templates/Minecraft Fabric 1.19.3/src/main/java/package/MainItemGroup.java', 'r') as f:
+            file = f.read()
+            f.close()
+
+        file = file.replace('!mod.id', mod['mod']['id'])
+        file = file.replace('!mod.java_pkg', java_pkg)
+
+        file = file.replace('!item.imports', item_group_item_imports)
+        file = file.replace('!block.imports', item_group_block_imports)
+        
+        file = file.replace('!item.entries', item_group_item_entries)
+        file = file.replace('!block.entries', item_group_block_entries)
+
+        with open('output/Minecraft Fabric 1.19.3/src/main/java/' + java_pkg_path + '/MainItemGroup.java', 'w') as f:
+            f.write(file)
+            f.close()
+    
+    RunTask(Task, 'Create MainItemGroup.java')
     del Task
     #endregion
 

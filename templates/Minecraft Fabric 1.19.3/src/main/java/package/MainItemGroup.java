@@ -6,15 +6,16 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.block.Blocks;
+!item.imports
+!block.imports
 
 public class MainItemGroup implements ModInitializer {
-    ItemGroup mainItemGroup = FabricItemGroup.builder(new Identifier("!mod.id", "stuff"))
+    ItemGroup GROUP = FabricItemGroup.builder(new Identifier("!mod.id", "stuff"))
     .icon(() -> new ItemStack(Blocks.COBBLESTONE))
-    // .entries((enabledFeatures, entries, operatorEnabled) -> {
-    //     entries.add(tomato.THIS_ITEM);
-    //     entries.add(carrot.THIS_ITEM);
-    //     entries.add(peanut_butter.THIS_ITEM);
-    // })
+    .entries((enabledFeatures, entries, operatorEnabled) -> {
+        !item.entries
+        !block.entries
+    })
     .build();
 
 	@Override

@@ -1,5 +1,4 @@
-import pygame, xmltodict
-from ast import literal_eval as make_tuple
+import pygame
 
 from functions import *
 

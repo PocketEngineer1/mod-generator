@@ -115,21 +115,45 @@ def Generate(mod, args):
             f.write(file)
             f.close()
         
-        with open('templates/Minetest/nodes.lua/body.lua', 'r') as f:
-            template = f.read()
-            f.close()
+        def SubTask():
+            with open('templates/Minetest/nodes.lua/transparent.lua', 'r') as f:
+                template = f.read()
+                f.close()
 
-        with open('output/Minetest/nodes.lua', 'a') as f:
-            if len(mod['elements']['blocks']) > 0:
-                for i in mod['elements']['blocks']:
-                    out = template
-                    out = out.replace('!block.id', i['id'])
-                    out = out.replace('!block.name', i['name'])
-                    out += "\n\n"
-                    f.write(out)
-            else:
-                f.write('-- No blocks to register')
-            f.close()
+            with open('output/Minetest/nodes.lua', 'a') as f:
+                if len(mod['elements']['blocks']) > 0:
+                    for i in mod['elements']['blocks']:
+                        if i['transparent']:
+                            out = template
+                            out = out.replace('!block.id', i['id'])
+                            out = out.replace('!block.name', i['name'])
+                            out += "\n\n"
+                            f.write(out)
+                else:
+                    f.write('-- No blocks to register')
+                f.close()
+        RunTask(SubTask, 'Register transparent blocks', True)
+        del SubTask
+
+        def SubTask():
+            with open('templates/Minetest/nodes.lua/opaque.lua', 'r') as f:
+                template = f.read()
+                f.close()
+
+            with open('output/Minetest/nodes.lua', 'a') as f:
+                if len(mod['elements']['blocks']) > 0:
+                    for i in mod['elements']['blocks']:
+                        if i['transparent'] != True:
+                            out = template
+                            out = out.replace('!block.id', i['id'])
+                            out = out.replace('!block.name', i['name'])
+                            out += "\n\n"
+                            f.write(out)
+                else:
+                    f.write('-- No blocks to register')
+                f.close()
+        RunTask(SubTask, 'Register opaque blocks', True)
+        del SubTask
         
         with open('output/Minetest/nodes.lua', 'r') as f:
             file = f.read()
@@ -140,47 +164,6 @@ def Generate(mod, args):
             f.close()
     
     RunTask(Task, 'Create nodes.lua')
-    del Task
-    #endregion
-
-    #region glass.lua
-    def Task():
-        with open('templates/Minetest/glass.lua/head.lua', 'r') as f:
-            file = f.read()
-            f.close()
-
-        file = file.replace('!mod.id', mod['mod']['id'])
-        file += "\n\n"
-
-        with open('output/Minetest/glass.lua', 'w') as f:
-            f.write(file)
-            f.close()
-        
-        with open('templates/Minetest/glass.lua/body.lua', 'r') as f:
-            template = f.read()
-            f.close()
-
-        with open('output/Minetest/glass.lua', 'a') as f:
-            if len(mod['elements']['glass']) > 0:
-                for i in mod['elements']['glass']:
-                    out = template
-                    out = out.replace('!glass.id', i['id'])
-                    out = out.replace('!glass.name', i['name'])
-                    out += "\n\n"
-                    f.write(out)
-            else:
-                f.write('-- No glass like blocks to register')
-            f.close()
-        
-        with open('output/Minetest/glass.lua', 'r') as f:
-            file = f.read()
-            f.close()
-        
-        with open('output/Minetest/glass.lua', 'w') as f:
-            f.write(file.rstrip())
-            f.close()
-    
-    RunTask(Task, 'Create glass.lua')
     del Task
     #endregion
 

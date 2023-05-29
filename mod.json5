@@ -381,50 +381,45 @@
             {
                 id: 'cobble_1',
                 name: 'Cobble',
+                transparent: false,
             },
 
             // Proto7
             {
                 id: 'proto7_stone',
                 name: 'Proto7 Stone',
+                transparent: false,
             },
             {
                 id: 'proto7_sand',
                 name: 'Proto7 Sand',
+                transparent: false,
             },
             {
                 id: 'proto7_bedrock',
                 name: 'Proto7 Bedrock',
+                transparent: false,
             },
             {
                 id: 'proto7_dirt',
                 name: 'Proto7 Dirt',
+                transparent: false,
             },
             {
                 id: 'proto7_planks',
                 name: 'Proto7 Planks',
+                transparent: false,
             },
-        ],
 
-        // pillars: [
-        //     // Proto7
-
-        //     {
-        //         id: 'proto7_wood_1',
-        //         name: 'Proto7 Wood',
-        //         different_top: true,
-        //         rotatable: false,
-        //     },
-        // ],
-
-        glass: [
             {
                 id: 'proto7_glass',
                 name: 'Proto7 Glass',
+                transparent: true,
             },
             {
                 id: 'proto7_leaves',
                 name: 'Proto7 Leaves',
+                transparent: true,
             },
         ],
     },

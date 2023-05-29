@@ -74,21 +74,40 @@ def Generate(mod, args):
             f.write(file)
             f.close()
         
-        with open('templates/Minetest/craftitems.lua/body.lua', 'r') as f:
-            template = f.read()
-            f.close()
+        def SubTask():
+            with open('templates/Minetest/craftitems.lua/food.lua', 'r') as f:
+                template = f.read()
+                f.close()
 
-        with open('output/Minetest/craftitems.lua', 'a') as f:
-            if len(mod['elements']['items']) > 0:
-                for i in mod['elements']['items']:
-                    out = template
-                    out = out.replace('!item.id', i['id'])
-                    out = out.replace('!item.name', i['name'])
-                    out += "\n\n"
-                    f.write(out)
-            else:
-                f.write('-- No items to register')
-            f.close()
+            with open('output/Minetest/item.lua', 'a') as f:
+                if len(mod['elements']['items']) > 0:
+                    for i in mod['elements']['items']:
+                        if i['edible']:
+                            out = template
+                            out = out.replace('!item.id', i['id'])
+                            out = out.replace('!item.name', i['name'])
+                            out += "\n\n"
+                            f.write(out)
+                f.close()
+        RunTask(SubTask, 'Register edible items', True)
+        del SubTask
+        
+        def SubTask():
+            with open('templates/Minetest/craftitems.lua/body.lua', 'r') as f:
+                template = f.read()
+                f.close()
+
+            with open('output/Minetest/craftitems.lua', 'a') as f:
+                if len(mod['elements']['items']) > 0:
+                    for i in mod['elements']['items']:
+                        if not i['edible']:
+                            out = template
+                            out = out.replace('!item.id', i['id'])
+                            out = out.replace('!item.name', i['name'])
+                            out += "\n\n"
+                            f.write(out)
+        RunTask(SubTask, 'Register edible items', True)
+        del SubTask
 
         with open('output/Minetest/craftitems.lua', 'r') as f:
             file = f.read()
@@ -167,47 +186,6 @@ def Generate(mod, args):
     del Task
     #endregion
 
-    #region food.lua
-    def Task():
-        with open('templates/Minetest/food.lua/head.lua', 'r') as f:
-            file = f.read()
-            f.close()
-
-        file = file.replace('!mod.id', mod['mod']['id'])
-        file += "\n\n"
-
-        with open('output/Minetest/food.lua', 'w') as f:
-            f.write(file)
-            f.close()
-        
-        with open('templates/Minetest/food.lua/body.lua', 'r') as f:
-            template = f.read()
-            f.close()
-
-        with open('output/Minetest/food.lua', 'a') as f:
-            if len(mod['elements']['food']) > 0:
-                for i in mod['elements']['food']:
-                    out = template
-                    out = out.replace('!food.id', i['id'])
-                    out = out.replace('!food.name', i['name'])
-                    out += "\n\n"
-                    f.write(out)
-            else:
-                f.write('-- No food to register')
-            f.close()
-        
-        with open('output/Minetest/food.lua', 'r') as f:
-            file = f.read()
-            f.close()
-        
-        with open('output/Minetest/food.lua', 'w') as f:
-            f.write(file.rstrip())
-            f.close()
-    
-    RunTask(Task, 'Create food.lua')
-    del Task
-    #endregion
-
     #region crafting
     def Task():
         #region shaped.lua
@@ -244,11 +222,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -271,11 +244,6 @@ def Generate(mod, args):
                                     write = True
                                     break
                             for j in mod['elements']['blocks']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
-                            for j in mod['elements']['food']:
                                 if outputItem == j['id']:
                                     out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
                                     write = True
@@ -306,11 +274,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.ingredient_2', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_2', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -333,11 +296,6 @@ def Generate(mod, args):
                                     write = True
                                     break
                             for j in mod['elements']['blocks']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_3', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
-                            for j in mod['elements']['food']:
                                 if outputItem == j['id']:
                                     out = out.replace('!recipe.ingredient_3', mod['mod']['id'] + ':' + j['id'])
                                     write = True
@@ -368,11 +326,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.ingredient_4', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_4', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -395,11 +348,6 @@ def Generate(mod, args):
                                     write = True
                                     break
                             for j in mod['elements']['blocks']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_5', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
-                            for j in mod['elements']['food']:
                                 if outputItem == j['id']:
                                     out = out.replace('!recipe.ingredient_5', mod['mod']['id'] + ':' + j['id'])
                                     write = True
@@ -456,11 +404,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.ingredient_7', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_7', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -487,11 +430,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.ingredient_8', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_8', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -502,7 +440,7 @@ def Generate(mod, args):
                         out = out.replace('!recipe.ingredient_8', '')
                         #endregion
                         
-                        #region 9
+                        #region 9   
                         outputItem = i['recipe'][2][2]
                         outputItem = str(outputItem)
 
@@ -514,11 +452,6 @@ def Generate(mod, args):
                                     write = True
                                     break
                             for j in mod['elements']['blocks']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient_9', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
-                            for j in mod['elements']['food']:
                                 if outputItem == j['id']:
                                     out = out.replace('!recipe.ingredient_9', mod['mod']['id'] + ':' + j['id'])
                                     write = True
@@ -587,11 +520,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -619,12 +547,7 @@ def Generate(mod, args):
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
-                                        break
-                                for j in mod['elements']['food']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
+                                        breakx
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:
@@ -647,11 +570,6 @@ def Generate(mod, args):
                                         write = True
                                         break
                                 for j in mod['elements']['blocks']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
-                                for j in mod['elements']['food']:
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
@@ -682,11 +600,6 @@ def Generate(mod, args):
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
                                         break
-                                for j in mod['elements']['food']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:
@@ -709,11 +622,6 @@ def Generate(mod, args):
                                         write = True
                                         break
                                 for j in mod['elements']['blocks']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
-                                for j in mod['elements']['food']:
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
@@ -744,11 +652,6 @@ def Generate(mod, args):
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
                                         break
-                                for j in mod['elements']['food']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:
@@ -771,11 +674,6 @@ def Generate(mod, args):
                                         write = True
                                         break
                                 for j in mod['elements']['blocks']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
-                                for j in mod['elements']['food']:
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
@@ -806,11 +704,6 @@ def Generate(mod, args):
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
                                         break
-                                for j in mod['elements']['food']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:
@@ -837,11 +730,6 @@ def Generate(mod, args):
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
                                         break
-                                for j in mod['elements']['food']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:
@@ -864,11 +752,6 @@ def Generate(mod, args):
                                         write = True
                                         break
                                 for j in mod['elements']['blocks']:
-                                    if outputItem == j['id']:
-                                        ingredients.append(mod['mod']['id'] + ':' + j['id'])
-                                        write = True
-                                        break
-                                for j in mod['elements']['food']:
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
@@ -942,11 +825,6 @@ def Generate(mod, args):
                                     out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
                                     write = True
                                     break
-                            for j in mod['elements']['food']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
                         elif outputItem.startswith('!item_definitions.'):
                             outputItem = outputItem.split('!item_definitions.', 1)[1]
                             for j in mod['item_definitions']['Minetest']:
@@ -968,11 +846,6 @@ def Generate(mod, args):
                                     write = True
                                     break
                             for j in mod['elements']['blocks']:
-                                if outputItem == j['id']:
-                                    out = out.replace('!recipe.ingredient', mod['mod']['id'] + ':' + j['id'])
-                                    write = True
-                                    break
-                            for j in mod['elements']['food']:
                                 if outputItem == j['id']:
                                     out = out.replace('!recipe.ingredient', mod['mod']['id'] + ':' + j['id'])
                                     write = True

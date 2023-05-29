@@ -243,137 +243,161 @@
             {
                 id: 'poke_ball_1',
                 name: 'Poke Ball',
+                edible: false,
             },
             {
                 id: 'great_ball_1',
                 name: 'Great Ball',
+                edible: false,
             },
             {
                 id: 'ultra_ball_1',
                 name: 'Ultra Ball',
+                edible: false,
             },
             {
                 id: 'master_ball_1',
                 name: 'Master Ball',
+                edible: false,
             },
             {
                 id: 'premier_ball_1',
                 name: 'Premier Ball',
+                edible: false,
             },
             {
                 id: 'luxury_ball_1',
                 name: 'Luxury Ball',
+                edible: false,
             },
             {
                 id: 'cherish_ball_1',
                 name: 'Cherish Ball',
+                edible: false,
             },
             {
                 id: 'beast_ball_1',
                 name: 'Beast Ball',
+                edible: false,
             },
 
-            // Poke Balls (Cobblemon https://modrinth.com/mod/cobblemon)
+            // Cobblemon https://modrinth.com/mod/cobblemon
             {
                 id: 'azure_ball_1',
                 name: 'Azure Ball',
+                edible: false,
             },
             {
                 id: 'citrine_ball_1',
                 name: 'Citrine Ball',
+                edible: false,
             },
             {
                 id: 'roseate_ball_1',
                 name: 'Roseate Ball',
+                edible: false,
             },
             {
                 id: 'slate_ball_1',
                 name: 'Slate Ball',
+                edible: false,
             },
             {
                 id: 'verdant_ball_1',
                 name: 'Verdant Ball',
+                edible: false,
             },
 
             // Coins
             {
                 id: 'gold_coin_1',
                 name: 'Gold Coin',
+                edible: false,
             },
             {
                 id: 'gold_coin_2',
                 name: 'Gold Coin',
+                edible: false,
             },
 
             {
                 id: 'silver_coin_1',
                 name: 'Silver Coin',
+                edible: false,
             },
 
             // Apricorns
             {
                 id: 'red_apricorn_1',
                 name: 'Red Apricorn',
+                edible: false,
             },
             {
                 id: 'red_apricorn_2',
                 name: 'Red Apricorn',
+                edible: false,
             },
             
             {
                 id: 'blue_apricorn_1',
                 name: 'Blue Apricorn',
+                edible: false,
             },
             {
                 id: 'green_apricorn_1',
                 name: 'Green Apricorn',
+                edible: false,
             },
             {
                 id: 'yellow_apricorn_1',
                 name: 'Yellow Apricorn',
+                edible: false,
             },
             {
                 id: 'pink_apricorn_1',
                 name: 'Pink Apricorn',
+                edible: false,
             },
             {
                 id: 'black_apricorn_1',
                 name: 'Black Apricorn',
+                edible: false,
             },
             {
                 id: 'white_apricorn_1',
                 name: 'White Apricorn',
+                edible: false,
             },
-        ],
 
-        food: [
             {
                 id: 'tomato_1',
                 name: 'Tomato',
+                edible: true,
             },
             {
                 id: 'carrot_1',
                 name: 'Carrot',
+                edible: true,
             },
             {
                 id: 'coffee_1',
                 name: 'Coffee',
+                edible: true,
             },
             {
                 id: 'banana_1',
                 name: 'Banana',
-            },
-            {
-                id: 'banana_1',
-                name: 'Banana',
+                edible: true,
             },
             {
                 id: 'mango_1',
                 name: 'Mango',
+                edible: true,
             },
             {
                 id: 'peanut_butter_1',
                 name: 'Peanut Butter',
+                edible: true,
             },
         ],
 

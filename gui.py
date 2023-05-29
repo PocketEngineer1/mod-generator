@@ -31,14 +31,14 @@ def GUI(args):
             modData = json5.load(f)
         
         if generate_minetest_mod.checked:
-            Log('Started task \'Create Minetest mod\'', 'INFO')
+            Log('Started task \'Generate Minetest mod\'', 'INFO')
             generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Create Minetest mod\'', 'INFO')
+            Log('Completed task \'Generate Minetest mod\'', 'INFO')
 
         if generate_minecraft_fabric_1_19_3_mod.checked:
-            Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
             generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-            Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
     #endregion
 
     generate_minetest_mod = UI.Checkbox('generate_minetest_mod', 10, 40, label='Minetest', group=mod_generation_group)
@@ -74,9 +74,9 @@ def GUI(args):
             runDef = json5.load(f)
         
         if test_minetest_mod.selected:
-            Log('Started task \'Create Minetest mod\'', 'INFO')
+            Log('Started task \'Generate Minetest mod\'', 'INFO')
             generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Create Minetest mod\'', 'INFO')
+            Log('Completed task \'Generate Minetest mod\'', 'INFO')
 
             Log('Started task \'Start Minetest mod\' testing', 'INFO')
             if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
@@ -86,9 +86,9 @@ def GUI(args):
             Log('Completed task \'Start Minetest mod\' testing', 'INFO')
 
         elif test_minecraft_fabric_1_19_3_mod.selected:
-            Log('Started task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
             generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-            Log('Completed task \'Create Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
 
             Log('Started task \'Start Minecraft Fabric 1.19.3 mod testing\'', 'INFO')
             if os.path.exists(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to']):

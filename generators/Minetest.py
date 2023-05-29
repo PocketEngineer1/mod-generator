@@ -547,7 +547,7 @@ def Generate(mod, args):
                                     if outputItem == j['id']:
                                         ingredients.append(mod['mod']['id'] + ':' + j['id'])
                                         write = True
-                                        breakx
+                                        break
                             elif outputItem.startswith('!item_definitions.'):
                                 outputItem = outputItem.split('!item_definitions.', 1)[1]
                                 for j in mod['item_definitions']['Minetest']:

@@ -92,10 +92,6 @@ class TextInput(Element):
             placeholder_surface = self.font.render(self.placeholder, True, self.placeholder_color)
             surface.blit(placeholder_surface, (self.rect.x + 5, self.rect.y + 5))
 
-        if self.rect.collidepoint(pygame.mouse.get_pos()):
-            if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_IBEAM:
-                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             # Toggle the active state of the input if clicked on
@@ -144,10 +140,6 @@ class RadioButton(Element):
             label_rect = label_text.get_rect(left=self.rect.right + 10, centery=self.rect.centery)
             surface.blit(label_text, label_rect)
 
-        if self.rect.collidepoint(pygame.mouse.get_pos()):
-            if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_HAND:
-                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
@@ -192,10 +184,6 @@ class Checkbox(Element):
             label_text = self.font.render(self.label, True, self.color)
             label_rect = label_text.get_rect(left=self.rect.right + 10, centery=self.rect.centery)
             surface.blit(label_text, label_rect)
-
-        if self.rect.collidepoint(pygame.mouse.get_pos()):
-            if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_HAND:
-                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -290,11 +278,6 @@ class Button(Element):
             text_rect = text_surface.get_rect(center=self.rect.center)
             surface.blit(text_surface, text_rect)
 
-        if self.enabled:
-            if self.rect.collidepoint(pygame.mouse.get_pos()):
-                if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_HAND:
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.enabled:
@@ -343,11 +326,6 @@ class Tab(Element):
                 text_surface = self.font.render(self.text, True, self.disabled_text_color)
             text_rect = text_surface.get_rect(center=self.rect.center)
             surface.blit(text_surface, text_rect)
-
-        if self.enabled:
-            if self.rect.collidepoint(pygame.mouse.get_pos()):
-                if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_HAND:
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
     def click_handler(self):
         self.tab_group.select_tab_handler(self)
@@ -400,8 +378,30 @@ class UI:
     def run(self):
         running = True
         while running:
-            if pygame.mouse.get_cursor() != pygame.SYSTEM_CURSOR_ARROW:
+            #region cursor
+            cursor_pos = pygame.mouse.get_pos()
+            cursor_on_element = False
+            element_object = None
+            for element in self.elements:
+                if element.rect.collidepoint(cursor_pos):
+                    cursor_on_element = True
+                    element_object = element
+                    break
+
+            if cursor_on_element:
+                if element_object is not None:
+                    if element_object.__class__.__name__ == 'Button' or element_object.__class__.__name__ == 'Tab':
+                        if element_object.enabled:
+                            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                    elif element_object.__class__.__name__ == 'Checkbox' or element_object.__class__.__name__ == 'RadioButton':
+                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                    elif element_object.__class__.__name__ == 'TextInput':
+                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
+                    else:
+                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            else:
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            #endregion
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

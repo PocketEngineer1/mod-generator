@@ -1,11 +1,11 @@
 {
     Minetest: {
-        'Were to copy generated source to': '/path/to/destination',
-        'What command to execute to test the mod': 'echo "the command to use"'
+        'Were to copy generated source to': '/home/aidan/snap/minetest/1828/mods/not_marks_stuff',
+        'What command to execute to test the mod': 'minetest --gameid minetest_game --world "/home/aidan/snap/minetest/1828/worlds/world1" --go'
     },
 
-    'Minecraft Fabric 1.19.3': {
-        'Were to copy generated source to': '/path/to/destination',
-        'What command to execute to test the mod': 'echo "the command to use"'
+    'Minecraft Fabric 1.19.3': { // This assumes the destination dev env has the correct gradle project files
+        'Were to copy generated source to': '/Users/andre/Nextcloud/Projects/Software/Game Mods/Minecraft with Fabric/1.19.3/src',
+        'What command to execute to test the mod': 'cd "/Users/andre/Nextcloud/Projects/Software/Game Mods/Minecraft with Fabric/1.19.3" && gradlew.bat runClient'
     },
 }

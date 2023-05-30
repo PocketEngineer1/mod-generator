@@ -38,9 +38,9 @@ def Main():
                 with open(modDef, 'r') as f:
                     modData = json5.load(f)
             
-            Log('Started task \'Generate Minetest mod\'', 'INFO')
-            generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Generate Minetest mod\'', 'INFO')
+                Log('Started task \'Generate Minetest mod\'', 'INFO')
+                generators.Minetest.Generate(modData, args)
+                Log('Completed task \'Generate Minetest mod\'', 'INFO')
             
             if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
                 shutil.rmtree(runDef['Minetest']['Were to copy generated source to'])

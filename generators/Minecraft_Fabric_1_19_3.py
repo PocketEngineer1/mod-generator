@@ -189,6 +189,9 @@ def Generate(mod, args):
 
         if len(mod['elements']['blocks']) > 0:
             for i in mod['elements']['blocks']:
+                if i['transparent']:
+                    Log('Block ' + i['id'] + ' is transparent and transparent blocks hasn\'t been implemented yet', 'WARN')
+
                 with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/item/block.json', 'r') as f:
                     file = f.read()
                     f.close()
@@ -235,7 +238,7 @@ def Generate(mod, args):
                     f.close()
                 
                 blocks += ',\n			"' + java_pkg + '.Blocks.' + i['id'] + '"'
-                blocks_lang += ',\n  "block.' + mod['mod']['id'] + '.' + i['id'] + '":"' + i['name'] + '"'
+                blocks_lang += ',\n  "block.' + mod['mod']['id'] + '.' + i['id'] + '": "' + i['name'] + '"'
                 item_group_block_imports += '\nimport ' + java_pkg + '.Blocks.' + i['id'] + ';'
                 item_group_block_entries += '\n        entries.add(' + i['id'] + '.THIS_BLOCK);'
 
@@ -260,6 +263,9 @@ def Generate(mod, args):
 
         if len(mod['elements']['items']) > 0:
             for i in mod['elements']['items']:
+                if i['edible']:
+                    Log('Item ' + i['id'] + ' is edible and edible items hasn\'t been implemented yet', 'WARN')
+                
                 with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/item/item.json', 'r') as f:
                     file = f.read()
                     f.close()

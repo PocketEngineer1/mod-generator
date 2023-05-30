@@ -6,6 +6,6 @@
 
     'Minecraft Fabric 1.19.3': { // This assumes the destination dev env has the correct gradle project files
         'Were to copy generated source to': '/home/aidan/Nextcloud/Projects/Software/Game Mods/Minecraft with Fabric/1.19.3/src',
-        'What command to execute to test the mod': '"/home/aidan/Nextcloud/Projects/Software/Game Mods/Minecraft with Fabric/1.19.3"/gradlew.sh runClient'
+        'What command to execute to test the mod': 'cd "/home/aidan/Nextcloud/Projects/Software/Game Mods/Minecraft with Fabric/1.19.3" && ./gradlew.sh runClient'
     },
 }

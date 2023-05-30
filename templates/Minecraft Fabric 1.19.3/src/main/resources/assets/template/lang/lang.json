@@ -1,2 +1,3 @@
-{!items!blocks
+{
+  "itemGroup.!mod.id.stuff": "!mod.name"!items!blocks
 }

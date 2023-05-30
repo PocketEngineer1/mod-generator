@@ -170,6 +170,8 @@ def Generate(mod, args):
         global lang
         with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/lang/lang.json', 'r') as f:
             lang = f.read()
+            lang = lang.replace('!mod.id', mod['mod']['id'])
+            lang = lang.replace('!mod.name', mod['mod']['name'])
             f.close()
     
     RunTask(Task, 'Create language files')
@@ -297,7 +299,6 @@ def Generate(mod, args):
         items = items.rstrip()
         fabric_mod_json = fabric_mod_json.replace('!items', items)
         lang = lang.replace('!items', items_lang)
-        lang = lang.replace('{,', '{')
     
     RunTask(Task, 'Create Items.java')
     del Task
@@ -328,7 +329,7 @@ def Generate(mod, args):
 
     #region crafting
     def Task():
-        #region shaped.lua
+        #region shaped
         def SubTask():
             if len(mod['recipes']['shaped']) > 0:
                 Log('Shaped recipes not implemented', 'WARN')

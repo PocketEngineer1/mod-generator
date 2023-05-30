@@ -79,7 +79,7 @@ def Generate(mod, args):
                 template = f.read()
                 f.close()
 
-            with open('output/Minetest/item.lua', 'a') as f:
+            with open('output/Minetest/craftitems.lua', 'a') as f:
                 if len(mod['elements']['items']) > 0:
                     for i in mod['elements']['items']:
                         if i['edible']:

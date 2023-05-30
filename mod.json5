@@ -1,6 +1,6 @@
 {
     mod: {
-        name: 'Not Mark\'s Stuff',
+        name: 'Not Marks Stuff',
         id: 'not_marks_stuff',
         desc: 'A bunch of stuff I made',
         author: 'Not Mark',

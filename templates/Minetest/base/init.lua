@@ -3,7 +3,6 @@ local path = minetest.get_modpath(name)
 
 dofile(path.."/nodes.lua")
 dofile(path.."/craftitems.lua")
-dofile(path.."/food.lua")
 
 dofile(path.."/crafting/shaped.lua")
 dofile(path.."/crafting/shapeless.lua")

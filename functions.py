@@ -7,11 +7,11 @@ def Log(message: str, level: str):
     with open('mod-generator.log', 'a') as f:
         f.write(current_time + ' ' + level + ': ' + message + '\n')
 
-def RunTask(task, taskName = 'Unnamed Task', isSubTask = False):
+def RunTask(task, taskName = 'Unnamed Task', isSubTask = False, args=[]):
     exept = None
     Log('Started task \'' + taskName + '\'', 'INFO')
     try:
-        task()
+        task(*args)
     except Exception as e:
         exept = e
     finally:

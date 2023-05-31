@@ -1,4 +1,4 @@
-import json5, os, sys, shutil, subprocess
+import json5, os, shutil, subprocess, threading
 
 from functions import *
 import UIFramework as UI
@@ -30,15 +30,18 @@ def GUI(args):
         with open(modDef, 'r') as f:
             modData = json5.load(f)
         
-        if generate_minetest_mod.checked:
-            Log('Started task \'Generate Minetest mod\'', 'INFO')
-            generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Generate Minetest mod\'', 'INFO')
+        def ThreadedTask():
+            ui.set_waiting(True)
+            if generate_minetest_mod.checked:
+                RunTask(generators.Minetest.Generate, 'Generate \'Minetest\' mod', args=[modData, args])
 
-        if generate_minecraft_fabric_1_19_3_mod.checked:
-            Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
-            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-            Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            if generate_minecraft_fabric_1_19_3_mod.checked:
+                RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
+            ui.set_waiting(False)
+
+        ui_thread = threading.Thread(target=ThreadedTask)
+        ui_thread.start()
+        ui_thread.join()
     #endregion
 
     generate_minetest_mod = UI.Checkbox('generate_minetest_mod', 10, 40, label='Minetest', group=mod_generation_group)
@@ -75,9 +78,7 @@ def GUI(args):
         
         if test_minetest_mod.selected:
             if args.regenerate:
-                Log('Started task \'Generate Minetest mod\'', 'INFO')
-                generators.Minetest.Generate(modData, args)
-                Log('Completed task \'Generate Minetest mod\'', 'INFO')
+                RunTask(generators.Minetest.Generate, 'Generate \'Minetest\' mod', args=[modData, args])
 
             Log('Started task \'Start Minetest mod\' testing', 'INFO')
             if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
@@ -88,9 +89,7 @@ def GUI(args):
 
         elif test_minecraft_fabric_1_19_3_mod.selected:
             if args.regenerate:
-                Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
-                generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-                Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
+                RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
 
             Log('Started task \'Start Minecraft Fabric 1.19.3 mod testing\'', 'INFO')
             if os.path.exists(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to']):

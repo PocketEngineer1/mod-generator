@@ -38,9 +38,7 @@ def Main():
                 with open(modDef, 'r') as f:
                     modData = json5.load(f)
             
-                Log('Started task \'Generate Minetest mod\'', 'INFO')
-                generators.Minetest.Generate(modData, args)
-                Log('Completed task \'Generate Minetest mod\'', 'INFO')
+                RunTask(generators.Minetest.Generate, 'Generate \'Minetest\' mod', args=[modData, args])
             
             if os.path.exists(runDef['Minetest']['Were to copy generated source to']):
                 shutil.rmtree(runDef['Minetest']['Were to copy generated source to'])
@@ -57,9 +55,7 @@ def Main():
                 with open(modDef, 'r') as f:
                     modData = json5.load(f)
                 
-                Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
-                generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-                Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
+                RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
             
             if os.path.exists(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to']):
                 shutil.rmtree(runDef['Minecraft Fabric 1.19.3']['Were to copy generated source to'])
@@ -94,21 +90,12 @@ def Main():
         ui_thread.join()
     else:
         if args.game == 'Minetest':
-            Log('Started task \'Generate Minetest mod\'', 'INFO')
-            generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Generate Minetest mod\'', 'INFO')
+            RunTask(generators.Minetest.Generate, 'Generate \'Minetest\' mod', args=[modData, args])
         elif args.game == 'Minecraft Fabric 1.19.3':
-            Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
-            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-            Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
         else:
-            Log('Started task \'Generate Minetest mod\'', 'INFO')
-            generators.Minetest.Generate(modData, args)
-            Log('Completed task \'Generate Minetest mod\'', 'INFO')
-            
-            Log('Started task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
-            generators.Minecraft_Fabric_1_19_3.Generate(modData, args)
-            Log('Completed task \'Generate Minecraft Fabric 1.19.3 mod\'', 'INFO')
+            RunTask(generators.Minetest.Generate, 'Generate \'Minetest\' mod', args=[modData, args])
+            RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
 
 if __name__ == '__main__' or 'main':
     Main()

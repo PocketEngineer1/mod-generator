@@ -76,12 +76,12 @@ class TextInput(Element):
         self.text_color = text_color
         self.active_color = active_color
         self.inactive_color = inactive_color
-        self.active = False
+        self.active_self = False
         self.on_change = on_change
 
     def draw(self, surface):
         # Draw the text input box
-        pygame.draw.rect(surface, self.active_color if self.active else self.inactive_color, self.rect, 2)
+        pygame.draw.rect(surface, self.active_color if self.active_self else self.inactive_color, self.rect, 2)
 
         # Draw the text if it exists
         if self.text != '':
@@ -96,16 +96,16 @@ class TextInput(Element):
         if event.type == pygame.MOUSEBUTTONDOWN:
             # Toggle the active state of the input if clicked on
             if self.rect.collidepoint(event.pos):
-                self.active = not self.active
+                self.active_self = not self.active_self
             else:
-                self.active = False
+                self.active_self = False
             # Update the text color based on the active state
-            self.text_color = (0, 0, 0) if self.active else (128, 128, 128)
+            self.text_color = (0, 0, 0) if self.active_self else (128, 128, 128)
         elif event.type == pygame.KEYDOWN:
             # Add characters to the input text if active
-            if self.active:
+            if self.active_self:
                 if event.key == pygame.K_RETURN:
-                    self.active = False
+                    self.active_self = False
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
@@ -203,6 +203,42 @@ class Rectangle(Element):
 
     def handle_event(self, event):
         pass
+
+# class ScrollArea(Element):
+#     def __init__(self, name, x, y, width, height, scroll_speed=5, group=None):
+#         super().__init__(name, x, y, width, height, group)
+#         self.scroll_y = 0
+#         self.scroll_speed = scroll_speed
+#         self.content_height = self.rect.height
+#         self.visible_area_height = self.rect.height
+#         self.elements = []
+
+#     def draw(self, surface):
+#         for i, item in enumerate(self.elements):
+#             if i * 35 > self.scroll_y + self.visible_area_height:
+#                 # Skip drawing items below the visible area
+#                 break
+#             if (i + 1) * 35 >= self.scroll_y:
+#                 # Only draw items that are partially or fully visible
+#                 item_y = (i * 35) - self.scroll_y
+#                 # Draw your file display elements here using the item_y as the y-coordinate
+#                 item.rect.y = item_y
+#                 item.draw(surface)
+
+#     def handle_event(self, event):
+#         if event.type == pygame.KEYDOWN:
+#             keys = pygame.key.get_pressed()
+#             if keys[pygame.K_UP]:
+#                 self.scroll_y += self.scroll_speed
+#             if keys[pygame.K_DOWN]:
+#                 self.scroll_y -= self.scroll_speed
+
+#             # Clamp scroll position within the content range
+#             self.max_scroll_y = self.content_height - self.visible_area_height
+#             self.scroll_y = max(0, min(self.scroll_y, self.max_scroll_y))
+    
+#     def add_elements(self, elements):
+#         self.elements = elements
 
 class Image(Element):
     def __init__(self, name, x, y, image_path, group=None, scale=None):
@@ -374,46 +410,51 @@ class UI:
         self.elements = []
         self.groups = []
         self.handle_elements_outside_of_group = handle_elements_outside_of_group
+        self.waiting = False
+        self.set_waiting(self.waiting)
 
     def run(self):
         running = True
         while running:
             #region cursor
-            cursor_pos = pygame.mouse.get_pos()
-            cursor_on_element = False
-            element_object = None
-            for element in self.elements:
-                if element.rect.collidepoint(cursor_pos):
-                    cursor_on_element = True
-                    element_object = element
-                    break
+            if self.waiting != True:
+                cursor_pos = pygame.mouse.get_pos()
+                cursor_on_element = False
+                element_object = None
+                for element in self.elements:
+                    if element.rect.collidepoint(cursor_pos):
+                        cursor_on_element = True
+                        element_object = element
+                        break
 
-            if cursor_on_element:
-                if element_object is not None:
-                    if element_object.__class__.__name__ == 'Button' or element_object.__class__.__name__ == 'Tab':
-                        if element_object.enabled:
-                            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-                    elif element_object.__class__.__name__ == 'Checkbox' or element_object.__class__.__name__ == 'RadioButton':
-                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-                    elif element_object.__class__.__name__ == 'TextInput':
-                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
-                    else:
-                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-            else:
-                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                if cursor_on_element:
+                    if element_object is not None:
+                        if element_object.active:
+                            if element_object.__class__.__name__ == 'Button' or element_object.__class__.__name__ == 'Tab':
+                                if element_object.enabled:
+                                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                            elif element_object.__class__.__name__ == 'Checkbox' or element_object.__class__.__name__ == 'RadioButton':
+                                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                            elif element_object.__class__.__name__ == 'TextInput':
+                                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
+                            else:
+                                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                else:
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             #endregion
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                if self.handle_elements_outside_of_group:
-                    for element in self.elements:
-                        if element.active:
-                            element.handle_event(event)
-                else:
-                    for group in self.groups:
-                        if group.active:
-                            group.handle_event(event)
+            if self.waiting != True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                    if self.handle_elements_outside_of_group:
+                        for element in self.elements:
+                            if element.active:
+                                element.handle_event(event)
+                    else:
+                        for group in self.groups:
+                            if group.active:
+                                group.handle_event(event)
  
             self.screen.fill(self.background_color)
             if self.handle_elements_outside_of_group:
@@ -426,6 +467,13 @@ class UI:
                         group.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
+    
+    def set_waiting(self, waiting: bool):
+        self.waiting = waiting
+        if waiting:
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_WAITARROW)
+        else:
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     def add_element(self, element):
         self.elements.append(element)

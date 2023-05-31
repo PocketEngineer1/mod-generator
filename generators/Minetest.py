@@ -145,6 +145,10 @@ def Generate(mod, args):
         with open('templates/Minetest/nodes.lua/pillar_like.lua', 'r') as f:
             pillar_like_template = f.read()
             f.close()
+
+        with open('templates/Minetest/nodes.lua/pillar_like_dif.lua', 'r') as f:
+            pillar_like_dif_template = f.read()
+            f.close()
         
         with open('output/Minetest/nodes.lua', 'a') as f:
             if len(mod['elements']['blocks']) > 0:
@@ -157,7 +161,10 @@ def Generate(mod, args):
                     else:
                         out = out.replace('!block.transparent', '')
                     if i['pillar_like']:
-                        out = out.replace('!block.pillar_like', pillar_like_template)
+                        if 'bottom_texture' in i:
+                            out = out.replace('!block.pillar_like', pillar_like_dif_template.replace('!block.bottom_texture', i['bottom_texture']).replace('!block.id', i['id']))
+                        else:
+                            out = out.replace('!block.pillar_like', pillar_like_template.replace('!block.id', i['id']))
                     else:
                         out = out.replace('!block.pillar_like', '')
                     out += "\n\n"

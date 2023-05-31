@@ -457,14 +457,15 @@
             {
                 id: 'proto7_wood',
                 name: 'Proto7 Wood',
-                transparent: true,
+                transparent: false,
                 pillar_like: true,
             },
             {
                 id: 'proto7_grass',
                 name: 'Proto7 Grass',
-                transparent: true,
+                transparent: false,
                 pillar_like: true,
+                bottom_texture: 'proto7_dirt'
             },
         ],
     },

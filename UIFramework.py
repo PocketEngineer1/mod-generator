@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 
 from functions import *
 
@@ -51,11 +51,10 @@ class ElementGroup:
         Log('Invalid element name', 'ERROR')
     
     def delete_element_by_name(self, name):
-        j = 0
         for i in self.elements:
-            j += 1
             if i.name == name:
-                del self.elements[i]
+                self.elements.remove(i)
+                return
         Log('Invalid element name', 'ERROR')
     
     def draw_elements(self, surface):
@@ -204,6 +203,7 @@ class Rectangle(Element):
     def handle_event(self, event):
         pass
 
+#region Non functional
 # class ScrollArea(Element):
 #     def __init__(self, name, x, y, width, height, scroll_speed=5, group=None):
 #         super().__init__(name, x, y, width, height, group)
@@ -239,6 +239,7 @@ class Rectangle(Element):
     
 #     def add_elements(self, elements):
 #         self.elements = elements
+#endregion
 
 class Image(Element):
     def __init__(self, name, x, y, image_path, group=None, scale=None):
@@ -488,11 +489,10 @@ class UI:
         Log('Invalid element name', 'ERROR')
     
     def delete_element_by_name(self, name):
-        j = 0
         for i in self.elements:
-            j += 1
             if i.name == name:
-                del self.elements[i]
+                self.elements.remove(i)
+                return
         Log('Invalid element name', 'ERROR')
 
     def add_group(self, group):

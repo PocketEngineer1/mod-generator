@@ -39,9 +39,9 @@ def GUI(args):
                 RunTask(generators.Minecraft_Fabric_1_19_3.Generate, 'Generate \'Minecraft Fabric 1.19.3\' mod', args=[modData, args])
             ui.set_waiting(False)
 
-        ui_thread = threading.Thread(target=ThreadedTask)
-        ui_thread.start()
-        ui_thread.join()
+        task_thread = threading.Thread(target=ThreadedTask)
+        task_thread.start()
+        task_thread.join()
     #endregion
 
     generate_minetest_mod = UI.Checkbox('generate_minetest_mod', 10, 40, label='Minetest', group=mod_generation_group)

@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "!mod.id:blocks/!block.id",
+    "down": "!mod.id:blocks/!block.id",
+    "side": "!mod.id:blocks/!block.id_side"
+  }
+}

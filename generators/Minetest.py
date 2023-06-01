@@ -74,40 +74,26 @@ def Generate(mod, args):
             f.write(file)
             f.close()
         
-        def SubTask():
-            with open('templates/Minetest/craftitems.lua/food.lua', 'r') as f:
-                template = f.read()
-                f.close()
-
-            with open('output/Minetest/craftitems.lua', 'a') as f:
-                if len(mod['elements']['items']) > 0:
-                    for i in mod['elements']['items']:
-                        if i['edible']:
-                            out = template
-                            out = out.replace('!item.id', i['id'])
-                            out = out.replace('!item.name', i['name'])
-                            out += "\n\n"
-                            f.write(out)
-                f.close()
-        RunTask(SubTask, 'Register edible items', True)
-        del SubTask
+        with open('templates/Minetest/craftitems.lua/body.lua', 'r') as f:
+            base_template = f.read()
+            f.close()
         
-        def SubTask():
-            with open('templates/Minetest/craftitems.lua/body.lua', 'r') as f:
-                template = f.read()
-                f.close()
+        with open('templates/Minetest/craftitems.lua/food.lua', 'r') as f:
+            food_template = f.read()
+            f.close()
 
-            with open('output/Minetest/craftitems.lua', 'a') as f:
-                if len(mod['elements']['items']) > 0:
-                    for i in mod['elements']['items']:
-                        if not i['edible']:
-                            out = template
-                            out = out.replace('!item.id', i['id'])
-                            out = out.replace('!item.name', i['name'])
-                            out += "\n\n"
-                            f.write(out)
-        RunTask(SubTask, 'Register edible items', True)
-        del SubTask
+        with open('output/Minetest/craftitems.lua', 'a') as f:
+            if len(mod['elements']['items']) > 0:
+                for i in mod['elements']['items']:
+                    out = base_template
+                    out = out.replace('!item.id', i['id'])
+                    out = out.replace('!item.name', i['name'])
+                    if i['edible']:
+                        out = out.replace('!item.edible', food_template)
+                    else:
+                        out = out.replace('!item.edible', '')
+                    out += "\n\n"
+                    f.write(out)
 
         with open('output/Minetest/craftitems.lua', 'r') as f:
             file = f.read()

@@ -6,6 +6,8 @@
         author: 'Not Mark',
         main_lang: 'en_US', // Defines the language element names are written in
 
+        version: '0',
+
         java_package: [
             'com',
             'notmark',

@@ -468,7 +468,26 @@ class UI:
                         group.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
-    
+
+    # Not working*
+    def get_anchored_position(self, element: pygame.Rect, anchor_point=('center', 'center')):
+        out = pygame.Rect(0, 0, 0, 0)
+        if anchor_point[0] == 'center' and anchor_point[0] == 'center':
+            ui_rect = pygame.Rect(0, 0, self.width, self.height)
+            ui_rect = pygame.Rect(ui_rect.center[0], ui_rect.center[1], self.width, self.height)
+            element1 = pygame.Rect(element.width / 2, element.height / 2, 0, 0)
+            out.x = ui_rect.x - element1.x
+            out.y = ui_rect.y - element1.y
+
+        if anchor_point[0] == 'left' and anchor_point[1] == 'top':
+            out = element
+
+        if anchor_point[0] == 'right':
+            pass
+        elif anchor_point[1] == 'bottom':
+            pass
+        return out.x, out.y
+
     def set_waiting(self, waiting: bool):
         self.waiting = waiting
         if waiting:

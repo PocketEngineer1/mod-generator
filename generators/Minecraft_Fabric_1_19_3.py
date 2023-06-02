@@ -217,6 +217,7 @@ def Generate(mod, args):
                     f.close()
                 
                 if i['pillar_like']:
+                    # https://bugs.mojang.com/browse/MC-262870
                     with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/pillar_like.json', 'r') as f:
                         file = f.read()
                         f.close()

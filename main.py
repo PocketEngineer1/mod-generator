@@ -18,7 +18,7 @@ args = parser.parse_args()
 def Main():
     #region args.run
     if args.run:
-        if args.mod == None:
+        if args.run_def == None:
             runDef = './run.json5'
         else:
             runDef = args.run_def

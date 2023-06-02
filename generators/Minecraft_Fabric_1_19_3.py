@@ -297,11 +297,6 @@ def Generate(mod, args):
 
                 file = file.replace('!item.id', i['id'])
                 file = file.replace('!mod.id', mod['mod']['id'])
-                if i['edible']:
-                    file = file.replace('!item.edible', '.food(new FoodComonent.Builder().hunger(1))')
-                else:
-                    file = file.replace('!item.edible', '')
-
 
                 with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item/' + i['id'] + '.json', 'w') as f:
                     f.write(file)
@@ -314,6 +309,12 @@ def Generate(mod, args):
                 file = file.replace('!item.id', i['id'])
                 file = file.replace('!mod.id', mod['mod']['id'])
                 file = file.replace('!mod.java_pkg', java_pkg)
+                if i['edible']:
+                    # file = file.replace('!item.edible', '.food(new FoodComonent.Builder().hunger(1))')
+                    file = file.replace('!item.edible', '')
+                    Log('I give up', 'ERROR')
+                else:
+                    file = file.replace('!item.edible', '')
 
                 with open('output/Minecraft Fabric 1.19.3/src/main/java/' + java_pkg_path + '/Items/' + i['id'] + '.java', 'w') as f:
                     f.write(file)

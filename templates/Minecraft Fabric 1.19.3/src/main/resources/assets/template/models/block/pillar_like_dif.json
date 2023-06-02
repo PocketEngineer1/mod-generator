@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "!mod.id:block/!block.id",
+    "down": "!mod.id:block/!block.bottom_texture",
+    "up": "!mod.id:block/!block.id",
+    "north": "!mod.id:block/!block.id_side",
+    "east": "!mod.id:block/!block.id_side",
+    "south": "!mod.id:block/!block.id_side",
+    "west": "!mod.id:block/!block.id_side"
+  }
+}

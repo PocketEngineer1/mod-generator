@@ -218,16 +218,29 @@ def Generate(mod, args):
                 
                 if i['pillar_like']:
                     # https://bugs.mojang.com/browse/MC-262870
-                    with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/pillar_like.json', 'r') as f:
-                        file = f.read()
-                        f.close()
+                    if 'bottom_texture' in i:
+                        with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/pillar_like_dif.json', 'r') as f:
+                            file = f.read()
+                            f.close()
 
-                    file = file.replace('!block.id', i['id'])
-                    file = file.replace('!mod.id', mod['mod']['id'])
+                        file = file.replace('!block.id', i['id'])
+                        file = file.replace('!block.bottom_texture', i['bottom_texture'])
+                        file = file.replace('!mod.id', mod['mod']['id'])
 
-                    with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block/' + i['id'] + '.json', 'w') as f:
-                        f.write(file)
-                        f.close()
+                        with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block/' + i['id'] + '.json', 'w') as f:
+                            f.write(file)
+                            f.close()
+                    else:
+                        with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/pillar_like.json', 'r') as f:
+                            file = f.read()
+                            f.close()
+
+                        file = file.replace('!block.id', i['id'])
+                        file = file.replace('!mod.id', mod['mod']['id'])
+
+                        with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/block/' + i['id'] + '.json', 'w') as f:
+                            f.write(file)
+                            f.close()
                 else:
                     with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/block/block.json', 'r') as f:
                         file = f.read()

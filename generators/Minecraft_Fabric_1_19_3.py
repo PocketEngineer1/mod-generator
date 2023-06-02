@@ -291,15 +291,17 @@ def Generate(mod, args):
 
         if len(mod['elements']['items']) > 0:
             for i in mod['elements']['items']:
-                if i['edible']:
-                    Log('Item ' + i['id'] + ' is edible and edible items hasn\'t been implemented yet', 'WARN')
-                
                 with open('templates/Minecraft Fabric 1.19.3/src/main/resources/assets/template/models/item/item.json', 'r') as f:
                     file = f.read()
                     f.close()
 
                 file = file.replace('!item.id', i['id'])
                 file = file.replace('!mod.id', mod['mod']['id'])
+                if i['edible']:
+                    file = file.replace('!item.edible', '.food(new FoodComonent.Builder().hunger(1))')
+                else:
+                    file = file.replace('!item.edible', '')
+
 
                 with open('output/Minecraft Fabric 1.19.3/src/main/resources/assets/' + mod['mod']['id'] + '/models/item/' + i['id'] + '.json', 'w') as f:
                     f.write(file)

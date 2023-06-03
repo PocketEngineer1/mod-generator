@@ -458,14 +458,17 @@ class UI:
                                 group.handle_event(event)
  
             self.screen.fill(self.background_color)
+            rect = pygame.Rect(0, 0, self.width, self.height)
             if self.handle_elements_outside_of_group:
                 for element in self.elements:
                     if element.active:
-                        element.draw(self.screen)
+                        if rect.colliderect(element.rect):
+                            element.draw(self.screen)
             else:
                 for group in self.groups:
                     if group.active:
-                        group.draw(self.screen)
+                        if rect.colliderect(element.rect):
+                            group.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
 

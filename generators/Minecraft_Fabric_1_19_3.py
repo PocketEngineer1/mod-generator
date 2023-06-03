@@ -111,6 +111,9 @@ def Generate(mod, args):
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id']) != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'])
 
+        if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/recipes') != True:
+            os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/recipes')
+
         if os.path.exists('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/loot_tables') != True:
             os.mkdir('output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/loot_tables')
 
@@ -310,9 +313,7 @@ def Generate(mod, args):
                 file = file.replace('!mod.id', mod['mod']['id'])
                 file = file.replace('!mod.java_pkg', java_pkg)
                 if i['edible']:
-                    file = file.replace('!item.edible', '.food(FoodComponents.APPLE)')
-                    # file = file.replace('!item.edible', '')
-                    # Log('I give up', 'ERROR')
+                    file = file.replace('!item.edible', '.food(FoodComponents.TROPICAL_FISH)')
                 else:
                     file = file.replace('import net.minecraft.item.FoodComponents;\n', '')
                     file = file.replace('!item.edible', '')
@@ -360,11 +361,294 @@ def Generate(mod, args):
     #region crafting
     def Task():
         #region shaped
+        #region shaped.lua
         def SubTask():
+            with open('templates/Minecraft Fabric 1.19.3/src/main/resources/data/template/recipes/shaped.json', 'r') as f:
+                template = f.read()
+                f.close()
+
             if len(mod['recipes']['shaped']) > 0:
-                Log('Shaped recipes not implemented', 'WARN')
+                for i in mod['recipes']['shaped']:
+                    try:
+                        path = 'output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/recipes/' + i['output'].split('!mod.', 1)[1] + '.json'
+                    except IndexError:
+                        path = 'output/Minecraft Fabric 1.19.3/src/main/resources/data/' + mod['mod']['id'] + '/recipes/' + i['output'].split('!item_definitions.', 1)[1] + '.json'
+
+                    with open(path, 'w') as f:
+                        out = template
+                        out = out.replace('!recipe.amount', str(i['amount']))
+
+                        #region output
+                        outputItem = i['output']
+                        outputItem = str(outputItem)
+
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.output', mod['mod']['id'] + ':' + j['id'])
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minetest']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.output', mod['item_definitions']['Minetest'][j])
+                                    break
+                        #endregion
+
+                        #region ingredients
+                        #region 1
+                        outputItem = i['recipe'][0][0]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_1', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_1', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "A": {\n            "item": "!recipe.ingredient_1"\n        },', '')
+                            out = out.replace('A', ' ')
+                        #endregion
+                        
+                        #region 2
+                        outputItem = i['recipe'][0][1]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_2', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_2', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_2', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "B": {\n            "item": "!recipe.ingredient_2"\n        },', '')
+                            out = out.replace('B', ' ')
+                        #endregion
+                        
+                        #region 3
+                        outputItem = i['recipe'][0][2]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_3', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_3', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_3', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "C": {\n            "item": "!recipe.ingredient_3"\n        },', '')
+                            out = out.replace('C', ' ')
+                        #endregion
+                        
+                        #region 4
+                        outputItem = i['recipe'][1][0]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_4', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_4', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_4', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "D": {\n            "item": "!recipe.ingredient_4"\n        },', '')
+                            out = out.replace('D', ' ')
+                        #endregion
+                        
+                        #region 5
+                        outputItem = i['recipe'][1][1]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_5', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_5', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_5', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "E": {\n            "item": "!recipe.ingredient_5"\n        },', '')
+                            out = out.replace('E', ' ')
+                        #endregion
+                        
+                        #region 6
+                        outputItem = i['recipe'][1][2]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_6', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_6', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_6', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "F": {\n            "item": "!recipe.ingredient_6"\n        },', '')
+                            out = out.replace('F', ' ')
+                        #endregion
+                        
+                        #region 7
+                        outputItem = i['recipe'][2][0]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_7', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_7', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_7', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "G": {\n            "item": "!recipe.ingredient_7"\n        },', '')
+                            out = out.replace('G', ' ')
+                        #endregion
+                        
+                        #region 8
+                        outputItem = i['recipe'][2][1]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_8', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_8', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_8', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "H": {\n            "item": "!recipe.ingredient_8"\n        },', '')
+                            out = out.replace('H', ' ')
+                        #endregion
+                        
+                        #region 9
+                        outputItem = i['recipe'][2][2]
+                        ingredient = False
+                        if outputItem.startswith('!mod.'):
+                            outputItem1 = outputItem.split('!mod.', 1)[1]
+                            for j in mod['elements']['items']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_9', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                            for j in mod['elements']['blocks']:
+                                if outputItem1 == j['id']:
+                                    out = out.replace('!recipe.ingredient_9', mod['mod']['id'] + ':' + j['id'])
+                                    ingredient = True
+                                    break
+                        elif outputItem.startswith('!item_definitions.'):
+                            outputItem1 = outputItem.split('!item_definitions.', 1)[1]
+                            for j in mod['item_definitions']['Minecraft Fabric 1.19.3']:
+                                if j == outputItem1:
+                                    out = out.replace('!recipe.ingredient_9', mod['item_definitions']['Minecraft Fabric 1.19.3'][j])
+                                    ingredient = True
+                                    break
+                        if ingredient == False:
+                            out = out.replace('\n        "I": {\n            "item": "!recipe.ingredient_9"\n        },', '')
+                            out = out.replace('I', ' ')
+                        #endregion
+                        #endregion
+
+                        f.write(out)
+                f.close()
         
-        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'shaped\'', True)
+        RunTask(SubTask, 'Create shaped recipe files', True)
         del SubTask
         #endregion
     
@@ -373,7 +657,7 @@ def Generate(mod, args):
             if len(mod['recipes']['shapeless']) > 0:
                 Log('Shapeless recipes not implemented', 'WARN')
 
-        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'shapeless\'', True)
+        RunTask(SubTask, 'Create shapeless recipe files', True)
         del SubTask
         #endregion
 
@@ -382,7 +666,7 @@ def Generate(mod, args):
             if len(mod['recipes']['smelting']) > 0:
                 Log('Smelting recipes not implemented', 'WARN')
 
-        RunTask(SubTask, 'PLACEHOLDER! main task \'crafting\' sub task \'smelting\'', True)
+        RunTask(SubTask, 'Create smelting recipe files', True)
         del SubTask
         #endregion
     

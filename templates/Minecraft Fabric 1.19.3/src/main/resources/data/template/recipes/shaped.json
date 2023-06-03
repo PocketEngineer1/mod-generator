@@ -1,0 +1,41 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ABC",
+        "DEF",
+        "GHI"
+    ],
+    "key": {
+        "A": {
+            "item": "!recipe.ingredient_1"
+        },
+        "B": {
+            "item": "!recipe.ingredient_2"
+        },
+        "C": {
+            "item": "!recipe.ingredient_3"
+        },
+        "D": {
+            "item": "!recipe.ingredient_4"
+        },
+        "E": {
+            "item": "!recipe.ingredient_5"
+        },
+        "F": {
+            "item": "!recipe.ingredient_6"
+        },
+        "G": {
+            "item": "!recipe.ingredient_7"
+        },
+        "H": {
+            "item": "!recipe.ingredient_8"
+        },
+        "I": {
+            "item": "!recipe.ingredient_9"
+        }
+    },
+    "result": {
+        "item": "!recipe.output",
+        "count": !recipe.amount
+    }
+}
